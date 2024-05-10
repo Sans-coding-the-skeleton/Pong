@@ -5,7 +5,6 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         JFrame window = new JFrame();
-
         window.setResizable(false);
         window.setTitle("Pong");
 
@@ -16,5 +15,6 @@ public class Main {
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+        gamePanel.startGameThread();
     }
 }
