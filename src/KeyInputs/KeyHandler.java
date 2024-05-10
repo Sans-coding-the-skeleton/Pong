@@ -23,7 +23,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_D -> leftPlayerRightPressed = true;
             case KeyEvent.VK_UP -> rightPLayerUpPressed = true;
             case KeyEvent.VK_LEFT -> rightPLayerLeftPressed = true;
-            case KeyEvent.VK_DOWN -> rightPLayerDownPressed= true;
+            case KeyEvent.VK_DOWN -> rightPLayerDownPressed = true;
             case KeyEvent.VK_RIGHT -> rightPlayerRightPressed = true;
         }
     }
@@ -38,7 +38,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_D -> leftPlayerRightPressed = false;
             case KeyEvent.VK_UP -> rightPLayerUpPressed = false;
             case KeyEvent.VK_LEFT -> rightPLayerLeftPressed = false;
-            case KeyEvent.VK_DOWN -> rightPLayerDownPressed= false;
+            case KeyEvent.VK_DOWN -> rightPLayerDownPressed = false;
             case KeyEvent.VK_RIGHT -> rightPlayerRightPressed = false;
         }
     }
