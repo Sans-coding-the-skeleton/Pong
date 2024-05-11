@@ -10,43 +10,53 @@ public class Player extends Entity {
     KeyHandler keyH;
 
 
-    public Player(GamePanel gp, KeyHandler keyH) {
+    public Player(GamePanel gp, KeyHandler keyH, boolean isOnLeft) {
         this.gp = gp;
         this.keyH = keyH;
+        this.isOnLeft = isOnLeft;
         setDefaultValues();
     }
 
     public void setDefaultValues() {
-        x = 100;
-        y = gp.getHeight() / 2;
+        if (isOnLeft) {
+            x = 10;
+        } else {
+            x = gp.getScreenWidth() - 20;
+        }
+        y = (gp.getScreenHeight() / 2) - 58;
         speed = 10;
         height = 100;
         width = 10;
     }
 
     public void update() {
-        if (keyH.leftPLayerUpPressed) {
-            y -= speed;
+        if (isOnLeft) {
+            if (keyH.leftPLayerUpPressed) {
+                if (y >= 0) {
+                    y -= speed;
+                }
+            }
+            if (keyH.leftPLayerDownPressed) {
+                if (y <= gp.getScreenHeight() - 100) {
+                    y += speed;
+                }
+            }
+        } else {
+            if (keyH.rightPLayerUpPressed) {
+                if (y >= 0) {
+                    y -= speed;
+                }
+            }
+            if (keyH.rightPLayerDownPressed) {
+                if (y <= gp.getScreenHeight() - 100) {
+                    y += speed;
+                }
+            }
         }
-        if (keyH.leftPLayerDownPressed) {
-            y += speed;
-        }
-        /*
-        if (keyH.rightPLayerUpPressed) {
-            rightPlayerY -= rightPlayerSpeed;
-        }
-        if (keyH.rightPLayerDownPressed) {
-            rightPlayerY += rightPlayerSpeed;
-        }
-         */
     }
 
     public void draw(Graphics2D g2) {
         g2.setColor(Color.WHITE);
         g2.fillRect(x, y, width, height);
-        /*
-        g2.setColor(Color.WHITE);
-        g2.fillRect(rightPlayerX, rightPlayerY, rightPlayerPaddleWidth, rightPlayerPaddleHeight);
-         */
     }
 }

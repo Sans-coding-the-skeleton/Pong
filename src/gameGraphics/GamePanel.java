@@ -11,11 +11,12 @@ public class GamePanel extends JPanel implements Runnable {
     // screen settings
     final int screenWidth = 800;
     final int screenHeight = 450;
-  //  final int scale = 2; TODO
+    //  final int scale = 2; TODO
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-    Player player = new Player(this, keyH);
+    Player player1 = new Player(this, keyH, true);
+    Player player2 = new Player(this, keyH, false);
 /*
     int leftPlayerX = 10;
     int leftPlayerY = screenHeight / 2;
@@ -100,13 +101,23 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.update();
+        player1.update();
+        player2.update();
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-      player.draw(g2);
+        player1.draw(g2);
+        player2.draw(g2);
         g2.dispose();
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
     }
 }
