@@ -11,15 +11,16 @@ import java.util.Objects;
 public class GamePanel extends JPanel implements Runnable {
 
     // screen settings
-   private final int screenWidth = 800;
-   private final int screenHeight = 450;
+    private final int screenWidth = 800;
+    private final int screenHeight = 450;
     //  final int scale = 2; TODO
 
     private final KeyHandler keyH = new KeyHandler();
     private Thread gameThread;
     private final Player player1 = new Player(this, keyH, true);
-    private final  Player player2 = new Player(this, keyH, false);
-   private final Ball ball = new Ball(this, player1, player2);
+    private final Player player2 = new Player(this, keyH, false);
+    private final Ball ball = new Ball(this, player1, player2);
+    private final int FPS = 60;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -34,36 +35,9 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
 
-    //sleep method
-/*
-    @Override
-    public void run() {
-        double drawInternal = 1000000.0 / FPS;
-        double nextDrawTime = System.currentTimeMillis() + drawInternal;
-        while (gameThread.isAlive()) {
-            //1. UPDATE: update information such as character position
-            update();
-            //2. DRAW: draw the screen with the updated information
-            repaint();
-            try {
-                double remainingTime = nextDrawTime - System.currentTimeMillis();
-                remainingTime = remainingTime / 1000000;
-                if(remainingTime < 0) {
-                    remainingTime = 0;
-                }
-                Thread.sleep((long) remainingTime);
-                nextDrawTime += drawInternal;
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
- */
-
     //delta method
     @Override
     public void run() {
-        int FPS = 60;
         double drawInternal = 1000000000.0 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
@@ -101,10 +75,14 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         Image background = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Background/Background02.png"))).getImage();
-        g2.drawImage(background,0,0,800,450,null);
+        g2.drawImage(background, 0, 0, 800, 450, null);
         player1.draw(g2);
         player2.draw(g2);
         ball.draw(g2);
+        g2.setColor(Color.WHITE);
+        g2.drawString(String.valueOf(ball.getLeftScore()), 350, 20);
+        g2.setColor(Color.WHITE);
+        g2.drawString(String.valueOf(ball.getRightScore()), 450, 20);
         g2.dispose();
     }
 

@@ -37,7 +37,7 @@ public class Player extends Entity {
                 }
             }
             if (keyH.leftPLayerDownPressed) {
-                if (y <= gp.getScreenHeight() - 100) {
+                if (y <= gp.getScreenHeight() - height) {
                     y += ySpeed;
                 }
             }
@@ -48,7 +48,7 @@ public class Player extends Entity {
                 }
             }
             if (keyH.rightPLayerDownPressed) {
-                if (y <= gp.getScreenHeight() - 100) {
+                if (y <= gp.getScreenHeight() - height) {
                     y += ySpeed;
                 }
             }

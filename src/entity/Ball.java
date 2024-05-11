@@ -12,8 +12,8 @@ public class Ball extends Entity {
     private int leftScore, rightScore;
     private final Player player1;
     private final Player player2;
-    int leftIFrames = 0;
-    int rightIFrames = 0;
+    private int leftIFrames = 0;
+    private int rightIFrames = 0;
 
 
     public Ball(GamePanel gp, Player player1, Player player2) {
@@ -61,10 +61,10 @@ public class Ball extends Entity {
                 rightIFrames = 10;
             }
         }
-        if(leftIFrames > 0) {
+        if (leftIFrames > 0) {
             leftIFrames--;
         }
-        if(rightIFrames > 0) {
+        if (rightIFrames > 0) {
             rightIFrames--;
         }
     }
@@ -72,5 +72,13 @@ public class Ball extends Entity {
     public void draw(Graphics2D g2) {
         g2.setColor(Color.WHITE);
         g2.fillRect(x, y, width, height);
+    }
+
+    public int getLeftScore() {
+        return leftScore;
+    }
+
+    public int getRightScore() {
+        return rightScore;
     }
 }
