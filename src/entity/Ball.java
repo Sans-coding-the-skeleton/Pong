@@ -21,7 +21,7 @@ public class Ball extends Entity {
         x = ((gp.getScreenWidth() / 2) - (width / 2));
         y = rand.nextInt(height, gp.getScreenHeight() - height);
         xSpeed = 5;
-        ySpeed = 5;
+        ySpeed = rand.nextInt(4)-2;
     }
 
     public void update() {
