@@ -1,12 +1,20 @@
 package keyInputs;
 
+import gameGraphics.GamePanel;
+import gameGraphics.GameState;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
+    GamePanel gp;
     public boolean leftPLayerUpPressed, leftPLayerDownPressed, leftPLayerLeftPressed, leftPlayerRightPressed;
     public boolean rightPLayerUpPressed, rightPLayerDownPressed, rightPLayerLeftPressed, rightPlayerRightPressed;
+
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -25,6 +33,13 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_LEFT -> rightPLayerLeftPressed = true;
             case KeyEvent.VK_DOWN -> rightPLayerDownPressed = true;
             case KeyEvent.VK_RIGHT -> rightPlayerRightPressed = true;
+            case KeyEvent.VK_P -> {
+                if(gp.getGameState().equals(GameState.pauseState)){
+                    gp.setGameState(GameState.playState);
+                } else if(gp.getGameState().equals(GameState.playState)){
+                    gp.setGameState(GameState.pauseState);
+                }
+            }
         }
     }
 

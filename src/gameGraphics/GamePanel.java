@@ -15,12 +15,13 @@ public class GamePanel extends JPanel implements Runnable {
     private final int screenHeight = 450;
     //  final int scale = 2; TODO
 
-    private final KeyHandler keyH = new KeyHandler();
+    private final KeyHandler keyH = new KeyHandler(this);
     private Thread gameThread;
     private final Player player1 = new Player(this, keyH, true);
     private final Player player2 = new Player(this, keyH, false);
     private final Ball ball = new Ball(this, player1, player2);
     private final int FPS = 60;
+    private GameState gameState;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -28,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        setGameState(GameState.playState);
     }
 
     public void startGameThread() {
@@ -65,9 +67,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player1.update();
-        player2.update();
-        ball.update();
+        if (getGameState().equals(GameState.playState)) {
+            player1.update();
+            player2.update();
+            ball.update();
+        }
     }
 
     @Override
@@ -92,5 +96,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getScreenHeight() {
         return screenHeight;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 }
