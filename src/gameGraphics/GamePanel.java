@@ -6,6 +6,7 @@ import entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -99,6 +100,8 @@ public class GamePanel extends JPanel implements Runnable {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        Image background = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Background/Background02.png"))).getImage();
+        g2.drawImage(background,0,0,800,450,null);
         player1.draw(g2);
         player2.draw(g2);
         ball.draw(g2);
