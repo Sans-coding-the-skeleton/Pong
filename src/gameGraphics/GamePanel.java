@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread gameThread;
     private final Player player1 = new Player(this, keyH, true);
     private final  Player player2 = new Player(this, keyH, false);
-   private final Ball ball = new Ball(this);
+   private final Ball ball = new Ball(this, player1, player2);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));

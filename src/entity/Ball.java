@@ -3,16 +3,24 @@ package entity;
 import gameGraphics.GamePanel;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class Ball extends Entity {
     GamePanel gp;
     Random rand = new Random();
     private int leftScore, rightScore;
+    private final Player player1;
+    private final Player player2;
+    int leftIFrames = 0;
+    int rightIFrames = 0;
 
-    public Ball(GamePanel gp) {
+
+    public Ball(GamePanel gp, Player player1, Player player2) {
         this.gp = gp;
         resetBall();
+        this.player1 = player1;
+        this.player2 = player2;
     }
 
     public void resetBall() {
@@ -21,7 +29,7 @@ public class Ball extends Entity {
         x = ((gp.getScreenWidth() / 2) - (width / 2));
         y = rand.nextInt(height, gp.getScreenHeight() - height);
         xSpeed = 5;
-        ySpeed = rand.nextInt(4)-2;
+        ySpeed = rand.nextInt(4) - 2;
     }
 
     public void update() {
@@ -41,7 +49,24 @@ public class Ball extends Entity {
             rightScore += 1;
             resetBall();
         }
-
+        if (new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(player1.x, player1.y, player1.width, player1.height))) {
+            if (leftIFrames == 0) {
+                xSpeed = -xSpeed;
+                leftIFrames = 10;
+            }
+        }
+        if (new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(player2.x, player2.y, player2.width, player2.height))) {
+            if (rightIFrames == 0) {
+                xSpeed = -xSpeed;
+                rightIFrames = 10;
+            }
+        }
+        if(leftIFrames > 0) {
+            leftIFrames--;
+        }
+        if(rightIFrames > 0) {
+            rightIFrames--;
+        }
     }
 
     public void draw(Graphics2D g2) {
