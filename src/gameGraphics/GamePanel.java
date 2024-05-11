@@ -10,10 +10,12 @@ import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    // screen settings
+    //screen settings
     private final int screenWidth = 800;
     private final int screenHeight = 450;
-    //  final int scale = 2; TODO
+    // TODO MENU
+    // TODO Fullscreen
+    // TODO SFX
 
     private final KeyHandler keyH = new KeyHandler(this);
     private Thread gameThread;
@@ -59,7 +61,7 @@ public class GamePanel extends JPanel implements Runnable {
                 drawCount++;
             }
             if (timer >= 1000000000) {
-             //   System.out.println("FPS:" + drawCount);
+                System.out.println("FPS:" + drawCount);
                 drawCount = 0;
                 timer = 0;
             }

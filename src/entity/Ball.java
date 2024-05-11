@@ -7,6 +7,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class Ball extends Entity {
+    // TODO Fix Stalemates
+    // TODO Ball Resetting on different sides
     GamePanel gp;
     Random rand = new Random();
     private int leftScore, rightScore;
