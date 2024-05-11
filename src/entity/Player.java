@@ -23,33 +23,33 @@ public class Player extends Entity {
         } else {
             x = gp.getScreenWidth() - 20;
         }
-        y = (gp.getScreenHeight() / 2) - 58;
-        speed = 10;
         height = 100;
         width = 10;
+        y = (gp.getScreenHeight() / 2) - (height / 2);
+        ySpeed = 10;
     }
 
     public void update() {
         if (isOnLeft) {
             if (keyH.leftPLayerUpPressed) {
                 if (y >= 0) {
-                    y -= speed;
+                    y -= ySpeed;
                 }
             }
             if (keyH.leftPLayerDownPressed) {
                 if (y <= gp.getScreenHeight() - 100) {
-                    y += speed;
+                    y += ySpeed;
                 }
             }
         } else {
             if (keyH.rightPLayerUpPressed) {
                 if (y >= 0) {
-                    y -= speed;
+                    y -= ySpeed;
                 }
             }
             if (keyH.rightPLayerDownPressed) {
                 if (y <= gp.getScreenHeight() - 100) {
-                    y += speed;
+                    y += ySpeed;
                 }
             }
         }

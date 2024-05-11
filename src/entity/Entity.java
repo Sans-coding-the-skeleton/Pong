@@ -1,9 +1,10 @@
 package entity;
 
 public class Entity {
-    public int x, y;
-    public int speed;
-    public int width;
-    public int height;
-    public boolean isOnLeft;
+    protected int x, y;
+    protected int ySpeed;
+    protected int xSpeed;
+    protected int width;
+    protected int height;
+    protected boolean isOnLeft;
 }
