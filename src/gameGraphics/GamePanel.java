@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final Ball ball = new Ball(this, player1, player2);
     private final int FPS = 60;
     private GameState gameState;
+    private final UI ui = new UI(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -58,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
                 drawCount++;
             }
             if (timer >= 1000000000) {
-                System.out.println("FPS:" + drawCount);
+             //   System.out.println("FPS:" + drawCount);
                 drawCount = 0;
                 timer = 0;
             }
@@ -83,10 +84,7 @@ public class GamePanel extends JPanel implements Runnable {
         player1.draw(g2);
         player2.draw(g2);
         ball.draw(g2);
-        g2.setColor(Color.WHITE);
-        g2.drawString(String.valueOf(ball.getLeftScore()), 350, 20);
-        g2.setColor(Color.WHITE);
-        g2.drawString(String.valueOf(ball.getRightScore()), 450, 20);
+        ui.draw(g2, ball);
         g2.dispose();
     }
 

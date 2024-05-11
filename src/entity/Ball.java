@@ -41,7 +41,7 @@ public class Ball extends Entity {
         if (y <= 0) {
             ySpeed *= -1;
         }
-        if (x >= gp.getScreenWidth()) {
+        if (x >= gp.getScreenWidth()- width) {
             leftScore += 1;
             resetBall();
         }
