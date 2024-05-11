@@ -1,4 +1,4 @@
-import GameGraphics.GamePanel;
+import gameGraphics.GamePanel;
 
 import javax.swing.*;
 

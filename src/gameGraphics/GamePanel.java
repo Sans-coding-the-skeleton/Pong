@@ -1,6 +1,7 @@
-package GameGraphics;
+package gameGraphics;
 
-import KeyInputs.KeyHandler;
+import keyInputs.KeyHandler;
+import entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,11 +11,12 @@ public class GamePanel extends JPanel implements Runnable {
     // screen settings
     final int screenWidth = 800;
     final int screenHeight = 450;
-    final int scale = 2;
+  //  final int scale = 2; TODO
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-
+    Player player = new Player(this, keyH);
+/*
     int leftPlayerX = 10;
     int leftPlayerY = screenHeight / 2;
     int rightPlayerX = screenWidth - 20;
@@ -25,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     int rightPlayerPaddleHeight = 100;
     int leftPlayerSpeed = 10;
     int rightPlayerSpeed = 10;
+ */
 
     int FPS = 60;
 
@@ -97,27 +100,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (keyH.leftPLayerUpPressed) {
-            leftPlayerY -= leftPlayerSpeed;
-        }
-        if (keyH.leftPLayerDownPressed) {
-            leftPlayerY += leftPlayerSpeed;
-        }
-        if (keyH.rightPLayerUpPressed) {
-            rightPlayerY -= rightPlayerSpeed;
-        }
-        if (keyH.rightPLayerDownPressed) {
-            rightPlayerY += rightPlayerSpeed;
-        }
+        player.update();
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.WHITE);
-        g2.fillRect(leftPlayerX, leftPlayerY, leftPlayerPaddleWidth, leftPlayerPaddleHeight);
-        g2.setColor(Color.WHITE);
-        g2.fillRect(rightPlayerX, rightPlayerY, rightPlayerPaddleWidth, rightPlayerPaddleHeight);
+      player.draw(g2);
         g2.dispose();
     }
 }
