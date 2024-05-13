@@ -6,8 +6,8 @@ import keyInputs.KeyHandler;
 import java.awt.*;
 
 public class Player extends Entity {
-   private final GamePanel gp;
-   private final KeyHandler keyH;
+    private final GamePanel gp;
+    private final KeyHandler keyH;
 
 
     public Player(GamePanel gp, KeyHandler keyH, boolean isOnLeft) {

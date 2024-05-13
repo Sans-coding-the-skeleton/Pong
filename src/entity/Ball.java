@@ -30,7 +30,11 @@ public class Ball extends Entity {
         height = 24;
         x = ((gp.getScreenWidth() / 2) - (width / 2));
         y = rand.nextInt(height, gp.getScreenHeight() - height);
-        xSpeed = 5;
+        if (isOnLeft) {
+            xSpeed = -5;
+        } else {
+            xSpeed = 5;
+        }
         ySpeed = rand.nextInt(4) - 2;
     }
 
@@ -43,11 +47,13 @@ public class Ball extends Entity {
         if (y <= 0) {
             ySpeed *= -1;
         }
-        if (x >= gp.getScreenWidth()- width) {
+        if (x >= gp.getScreenWidth() - width) {
+            isOnLeft = true;
             leftScore += 1;
             resetBall();
         }
         if (x <= 0) {
+            isOnLeft = false;
             rightScore += 1;
             resetBall();
         }
