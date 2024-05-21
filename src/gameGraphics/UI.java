@@ -20,7 +20,7 @@ public class UI {
         g2.drawString(String.valueOf(ball.getLeftScore()), 300, 50);
         g2.setColor(Color.WHITE);
         g2.drawString(String.valueOf(ball.getRightScore()), 475, 50);
-        if(gp.getGameState().equals(GameState.pauseState)) { //if the game is paused we draw "PAUSED" on top of everything
+        if(gp.getGameState().equals(GameState.pauseState)) { //if the game is paused, "PAUSED" is drawn on top of everything
             g2.setColor(Color.GRAY);
             g2.drawString("PAUSED", gp.getScreenWidth()/2 -80, gp.getScreenHeight()/2);
         }
