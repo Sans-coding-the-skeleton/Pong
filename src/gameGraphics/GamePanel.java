@@ -3,6 +3,7 @@ package gameGraphics;
 import entity.Ball;
 import keyInputs.KeyHandler;
 import entity.Player;
+import sound.Sound;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,9 +18,10 @@ public class GamePanel extends JPanel implements Runnable {
     private final int screenHeight = 450;
     // TODO MENU
     // TODO Fullscreen
-    // TODO SFX
+    // TODO Fix lag with SFX
 
     private final KeyHandler keyH = new KeyHandler(this);
+    private Sound sound = new Sound();
     private Thread gameThread;
     private final Player player1 = new Player(this, keyH, true);
     private final Player player2 = new Player(this, keyH, false);
@@ -100,6 +102,11 @@ public class GamePanel extends JPanel implements Runnable {
         ball.draw(g2);
         ui.draw(g2, ball);
         g2.dispose();
+    }
+
+    public void playSE(int i) {
+        sound.setFile(i);
+        sound.play();
     }
 
     public int getScreenWidth() {
