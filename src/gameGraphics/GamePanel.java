@@ -16,7 +16,8 @@ public class GamePanel extends JPanel implements Runnable {
     //screen settings
     private final int screenWidth = 800;
     private final int screenHeight = 450;
-    // TODO MENU
+    // TODO Player vs Computer
+    // TODO Settings
     // TODO Fullscreen
     // TODO Fix lag with SFX
 
@@ -29,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FPS = 60;
     private GameState gameState;
     private final UI ui = new UI(this);
-    Image background;
+    private Image background;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -38,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-        setGameState(GameState.playState);
+        setGameState(GameState.titleState);
     }
 
     public void preloadImages() {
@@ -96,13 +97,33 @@ public class GamePanel extends JPanel implements Runnable {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(background, 0, 0, 800, 450, null);
-        player1.draw(g2);
-        player2.draw(g2);
-        ball.draw(g2);
-        ui.draw(g2, ball);
-        g2.dispose();
+        if (getGameState().equals(GameState.titleState)) {
+            ui.draw(g2, ball);
+        } else {
+            g2.drawImage(background, 0, 0, 800, 450, null);
+            player1.draw(g2);
+            player2.draw(g2);
+            ball.draw(g2);
+            ui.draw(g2, ball);
+            g2.dispose();
+        }
     }
+    public int getCommandNum(){
+       return ui.getCommandNum();
+    }
+
+    public void setCommandNum(int num){
+        ui.setCommandNum(num);
+    }
+
+    public void addCommandNum(){
+        ui.addCommandNum();
+    }
+
+    public void removeCommandNum(){
+        ui.removeCommandNum();
+    }
+
 /*
     public void playSE(int i) {
         sound.setFile(i);
