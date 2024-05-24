@@ -99,6 +99,8 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         if (getGameState().equals(GameState.titleState)) {
             ui.draw(g2, ball);
+        } else if (getGameState().equals(GameState.settingsState)) {
+            ui.draw(g2, ball);
         } else {
             g2.drawImage(background, 0, 0, 800, 450, null);
             player1.draw(g2);
@@ -108,19 +110,20 @@ public class GamePanel extends JPanel implements Runnable {
             g2.dispose();
         }
     }
-    public int getCommandNum(){
-       return ui.getCommandNum();
+
+    public int getCommandNum() {
+        return ui.getCommandNum();
     }
 
-    public void setCommandNum(int num){
+    public void setCommandNum(int num) {
         ui.setCommandNum(num);
     }
 
-    public void addCommandNum(){
+    public void addCommandNum() {
         ui.addCommandNum();
     }
 
-    public void removeCommandNum(){
+    public void removeCommandNum() {
         ui.removeCommandNum();
     }
 

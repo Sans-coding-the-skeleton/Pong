@@ -35,6 +35,9 @@ public class UI {
         if (gp.getGameState().equals(GameState.titleState)) {
             drawTitleScreen(g2);
         }
+        if (gp.getGameState().equals(GameState.settingsState)) {
+            drawSettingsScreen(g2);
+        }
     }
 
     public void drawPlayScreen(Graphics2D g2, Ball ball) {
@@ -50,12 +53,8 @@ public class UI {
     }
 
     private void drawTitleScreen(Graphics2D g2) {
-        g2.setColor(Color.GRAY);
         String text = "PONG";
-        int centeredText = getXForCenteredText(text, g2);
-        g2.drawString(text, centeredText + 5, gp.getScreenHeight() / 2 - 120);
-        g2.setColor(Color.WHITE);
-        g2.drawString(text, centeredText, gp.getScreenHeight() / 2 - 125);
+        drawTitle(text, g2);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
         text = "Player vs Player";
         drawMenu(text, g2, 0);
@@ -79,6 +78,36 @@ public class UI {
         }
     }
 
+    private void drawSettingsScreen(Graphics2D g2) {
+        String text = "SETTINGS";
+        drawTitle(text, g2);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
+        text = "Fullscreen";
+        drawMenu(text, g2, 0);
+        if (commandNum == 0) {
+            drawChoice(text, g2, commandNum);
+        }
+        text = "Sound";
+        drawMenu(text, g2, 1);
+        if (commandNum == 1) {
+            drawChoice(text, g2, commandNum);
+        }
+        text = "Back";
+        drawMenu(text, g2, 2);
+        if (commandNum == 2) {
+            drawChoice(text, g2, commandNum);
+        }
+    }
+
+    public void drawTitle(String text, Graphics2D g2) {
+        g2.setColor(Color.GRAY);
+        int centeredText = getXForCenteredText(text, g2);
+        g2.drawString(text, centeredText + 5, gp.getScreenHeight() / 2 - 120);
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, centeredText, gp.getScreenHeight() / 2 - 125);
+
+    }
+
     public void drawMenu(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
         g2.drawString(text, centeredText, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * line);
@@ -94,13 +123,13 @@ public class UI {
         return gp.getScreenWidth() / 2 - length / 2;
     }
 
-   public void addCommandNum(){
+    public void addCommandNum() {
         commandNum++;
-   }
+    }
 
-   public void removeCommandNum(){
+    public void removeCommandNum() {
         commandNum--;
-   }
+    }
 
     public int getCommandNum() {
         return commandNum;

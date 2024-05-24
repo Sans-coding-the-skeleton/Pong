@@ -41,14 +41,41 @@ public class KeyHandler implements KeyListener {
                     if (gp.getCommandNum() == 0) {
                         gp.setGameState(GameState.playState);
                     }
-                    if(gp.getCommandNum() == 1) {
+                    if (gp.getCommandNum() == 1) {
                         // add later
                     }
-                    if(gp.getCommandNum() == 2){
-                        // add later
+                    if (gp.getCommandNum() == 2) {
+                        gp.setGameState(GameState.settingsState);
+                        gp.setCommandNum(0);
                     }
-                    if(gp.getCommandNum() == 3){
+                    if (gp.getCommandNum() == 3) {
                         System.exit(0);
+                    }
+                }
+            }
+        } else if (gp.getGameState().equals(GameState.settingsState)) {
+            switch (code) {
+                case KeyEvent.VK_W, KeyEvent.VK_UP -> {
+                    gp.removeCommandNum();
+                    if (gp.getCommandNum() < 0) {
+                        gp.setCommandNum(2);
+                    }
+                }
+                case KeyEvent.VK_S, KeyEvent.VK_DOWN -> {
+                    gp.addCommandNum();
+                    if (gp.getCommandNum() > 2) {
+                        gp.setCommandNum(0);
+                    }
+                }
+                case KeyEvent.VK_ENTER -> {
+                    if (gp.getCommandNum() == 0) {
+                        // add later
+                    }
+                    if (gp.getCommandNum() == 1) {
+                        // add later
+                    }
+                    if (gp.getCommandNum() == 2) {
+                        gp.setGameState(GameState.titleState);
                     }
                 }
             }
