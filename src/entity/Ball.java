@@ -41,37 +41,37 @@ public class Ball extends Entity {
         x += xSpeed;
         y += ySpeed;
         if (y >= gp.getScreenHeight() - height) {
-            //     gp.playSE(0);
+              gp.playSE(3);
             ySpeed *= -1;
         }
         if (y <= 0) {
-            //          gp.playSE(0);
+            gp.playSE(3);
             ySpeed *= -1;
         }
         if (x >= gp.getScreenWidth() - width) {
             isOnLeft = true;
             leftScore += 1;
-            //      gp.playSE(1);
+               gp.playSE(4);
             resetBall();
         }
         if (x <= 0) {
             isOnLeft = false;
             rightScore += 1;
-            //     gp.playSE(1);
+              gp.playSE(4);
             resetBall();
         }
         if (new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(player1.x, player1.y, player1.width, player1.height))) {
             if (leftIFrames == 0) {
                 xSpeed = -xSpeed;
                 leftIFrames = 10;
-                //       gp.playSE(0);
+                   gp.playSE(3);
             }
         }
         if (new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(player2.x, player2.y, player2.width, player2.height))) {
             if (rightIFrames == 0) {
                 xSpeed = -xSpeed;
                 rightIFrames = 10;
-                //    gp.playSE(0);
+                  gp.playSE(3);
             }
         }
         if (leftIFrames > 0) {

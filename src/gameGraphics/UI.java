@@ -25,17 +25,17 @@ public class UI {
 
     public void draw(Graphics2D g2, Ball ball) {
         g2.setFont(pressStartRegular);
-        if (gp.getGameState().equals(GameState.playState)) {
+        if (gp.getGameState().equals(GameState.PLAY_STATE)) {
             drawPlayScreen(g2, ball);
         }
-        if (gp.getGameState().equals(GameState.pauseState)) {
+        if (gp.getGameState().equals(GameState.PAUSE_STATE)) {
             drawPlayScreen(g2, ball);
             drawPauseScreen(g2);//if the game is paused, "PAUSED" is drawn on top of everything
         }
-        if (gp.getGameState().equals(GameState.titleState)) {
+        if (gp.getGameState().equals(GameState.TITLE_STATE)) {
             drawTitleScreen(g2);
         }
-        if (gp.getGameState().equals(GameState.settingsState)) {
+        if (gp.getGameState().equals(GameState.SETTINGS_STATE)) {
             drawSettingsScreen(g2);
         }
     }
@@ -105,7 +105,6 @@ public class UI {
         g2.drawString(text, centeredText + 5, gp.getScreenHeight() / 2 - 120);
         g2.setColor(Color.WHITE);
         g2.drawString(text, centeredText, gp.getScreenHeight() / 2 - 125);
-
     }
 
     public void drawMenu(String text, Graphics2D g2, int line) {

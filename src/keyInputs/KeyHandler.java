@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    GamePanel gp;
+    private final GamePanel gp;
     public boolean leftPLayerUpPressed, leftPLayerDownPressed, leftPLayerLeftPressed, leftPlayerRightPressed;
     public boolean rightPLayerUpPressed, rightPLayerDownPressed, rightPLayerLeftPressed, rightPlayerRightPressed;
 
@@ -23,7 +23,7 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        if (gp.getGameState().equals(GameState.titleState)) {
+        if (gp.getGameState().equals(GameState.TITLE_STATE)) {
             switch (code) {
                 case KeyEvent.VK_W, KeyEvent.VK_UP -> {
                     gp.removeCommandNum();
@@ -39,21 +39,24 @@ public class KeyHandler implements KeyListener {
                 }
                 case KeyEvent.VK_ENTER -> {
                     if (gp.getCommandNum() == 0) {
-                        gp.setGameState(GameState.playState);
+                        gp.playSE(1);
+                        gp.setGameState(GameState.PLAY_STATE);
                     }
                     if (gp.getCommandNum() == 1) {
+                        gp.playSE(1);
                         // add later
                     }
                     if (gp.getCommandNum() == 2) {
-                        gp.setGameState(GameState.settingsState);
+                        gp.setGameState(GameState.SETTINGS_STATE);
                         gp.setCommandNum(0);
                     }
                     if (gp.getCommandNum() == 3) {
+                        gp.playSE(2);
                         System.exit(0);
                     }
                 }
             }
-        } else if (gp.getGameState().equals(GameState.settingsState)) {
+        } else if (gp.getGameState().equals(GameState.SETTINGS_STATE)) {
             switch (code) {
                 case KeyEvent.VK_W, KeyEvent.VK_UP -> {
                     gp.removeCommandNum();
@@ -75,12 +78,13 @@ public class KeyHandler implements KeyListener {
                         // add later
                     }
                     if (gp.getCommandNum() == 2) {
-                        gp.setGameState(GameState.titleState);
+                        gp.setGameState(GameState.TITLE_STATE);
+                        gp.setCommandNum(0);
                     }
                 }
             }
         }
-        if (gp.getGameState().equals(GameState.playState)) {
+        if (gp.getGameState().equals(GameState.PLAY_STATE)) {
             switch (code) {
                 case KeyEvent.VK_W -> leftPLayerUpPressed = true;
                 case KeyEvent.VK_A -> leftPLayerLeftPressed = true;
@@ -91,10 +95,10 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_DOWN -> rightPLayerDownPressed = true;
                 case KeyEvent.VK_RIGHT -> rightPlayerRightPressed = true;
                 case KeyEvent.VK_P -> {
-                    if (gp.getGameState().equals(GameState.pauseState)) {
-                        gp.setGameState(GameState.playState);
-                    } else if (gp.getGameState().equals(GameState.playState)) {
-                        gp.setGameState(GameState.pauseState);
+                    if (gp.getGameState().equals(GameState.PAUSE_STATE)) {
+                        gp.setGameState(GameState.PLAY_STATE);
+                    } else if (gp.getGameState().equals(GameState.PLAY_STATE)) {
+                        gp.setGameState(GameState.PAUSE_STATE);
                     }
                 }
             }
@@ -103,7 +107,7 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (gp.getGameState().equals(GameState.playState)) {
+        if (gp.getGameState().equals(GameState.PLAY_STATE)) {
             int code = e.getKeyCode();
             switch (code) {
                 case KeyEvent.VK_W -> leftPLayerUpPressed = false;

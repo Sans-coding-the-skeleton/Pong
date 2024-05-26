@@ -1,6 +1,6 @@
 package entity;
 
-public class Entity {
+public abstract class Entity {
     protected int x, y;
     protected int ySpeed;
     protected int xSpeed;

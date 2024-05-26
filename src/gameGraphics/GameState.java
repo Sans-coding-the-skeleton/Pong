@@ -1,5 +1,5 @@
 package gameGraphics;
 
 public enum GameState {
-    titleState, settingsState, playState, pauseState
+    TITLE_STATE, SETTINGS_STATE, PLAY_STATE, PAUSE_STATE
 }

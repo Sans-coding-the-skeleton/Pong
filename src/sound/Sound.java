@@ -6,12 +6,15 @@ import java.net.URL;
 
 public class Sound {
     private Clip clip;
-    private final URL[] soundURL = new URL[3];
+    private final URL[] soundURL = new URL[10];
 
     public Sound() {
-        soundURL[0] = getClass().getResource("Bounce.wav");
-        soundURL[1] = getClass().getResource("Goal.wav");
-        soundURL[2] = getClass().getResource("GoalFast.wav");
+        soundURL[0] = getClass().getResource("Choice01.wav");
+        soundURL[1] = getClass().getResource("EnterChoice.wav");
+        soundURL[2] = getClass().getResource("Quit.wav");
+        soundURL[3] = getClass().getResource("Bounce03.wav");
+        soundURL[4] = getClass().getResource("Goal02.wav");
+        soundURL[5] = getClass().getResource("GoalFast.wav");
     }
 
     public void setFile(int i) {
@@ -27,7 +30,7 @@ public class Sound {
     public void play() {
         clip.start();
     }
-
+/*
     public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
@@ -35,4 +38,5 @@ public class Sound {
     public void stop() {
         clip.stop();
     }
+    */
 }

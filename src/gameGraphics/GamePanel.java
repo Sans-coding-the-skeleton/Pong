@@ -3,7 +3,7 @@ package gameGraphics;
 import entity.Ball;
 import keyInputs.KeyHandler;
 import entity.Player;
-//import sound.Sound;
+import sound.Sound;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,10 +19,9 @@ public class GamePanel extends JPanel implements Runnable {
     // TODO Player vs Computer
     // TODO Settings
     // TODO Fullscreen
-    // TODO Fix lag with SFX
 
     private final KeyHandler keyH = new KeyHandler(this);
-    //  private Sound sound = new Sound();
+     private final Sound sound;
     private Thread gameThread;
     private final Player player1 = new Player(this, keyH, true);
     private final Player player2 = new Player(this, keyH, false);
@@ -33,13 +32,14 @@ public class GamePanel extends JPanel implements Runnable {
     private Image background;
 
     public GamePanel() {
+        sound = new Sound();
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         preloadImages();
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-        setGameState(GameState.titleState);
+        setGameState(GameState.TITLE_STATE);
     }
 
     public void preloadImages() {
@@ -86,7 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (getGameState().equals(GameState.playState)) {
+        if (getGameState().equals(GameState.PLAY_STATE)) {
             player1.update();
             player2.update();
             ball.update();
@@ -97,9 +97,9 @@ public class GamePanel extends JPanel implements Runnable {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        if (getGameState().equals(GameState.titleState)) {
+        if (getGameState().equals(GameState.TITLE_STATE)) {
             ui.draw(g2, ball);
-        } else if (getGameState().equals(GameState.settingsState)) {
+        } else if (getGameState().equals(GameState.SETTINGS_STATE)) {
             ui.draw(g2, ball);
         } else {
             g2.drawImage(background, 0, 0, 800, 450, null);
@@ -120,19 +120,20 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void addCommandNum() {
+        playSE(0);
         ui.addCommandNum();
     }
 
     public void removeCommandNum() {
+        playSE(0);
         ui.removeCommandNum();
     }
 
-/*
+
     public void playSE(int i) {
         sound.setFile(i);
         sound.play();
     }
- */
 
     public int getScreenWidth() {
         return screenWidth;
