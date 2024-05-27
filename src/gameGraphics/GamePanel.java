@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
     // TODO Fullscreen
 
     private final KeyHandler keyH = new KeyHandler(this);
-     private final Sound sound;
+    private final Sound sound;
     private Thread gameThread;
     private final Player player1 = new Player(this, keyH, true);
     private final Player player2 = new Player(this, keyH, false);
@@ -97,17 +97,15 @@ public class GamePanel extends JPanel implements Runnable {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        if (getGameState().equals(GameState.TITLE_STATE)) {
-            ui.draw(g2, ball);
-        } else if (getGameState().equals(GameState.SETTINGS_STATE)) {
-            ui.draw(g2, ball);
-        } else {
+        if (getGameState().equals(GameState.PLAY_STATE)) {
             g2.drawImage(background, 0, 0, 800, 450, null);
             player1.draw(g2);
             player2.draw(g2);
             ball.draw(g2);
             ui.draw(g2, ball);
             g2.dispose();
+        }else {
+            ui.draw(g2, ball);
         }
     }
 
@@ -149,5 +147,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+        setCommandNum(0);
     }
 }

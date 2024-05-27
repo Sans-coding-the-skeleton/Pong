@@ -48,12 +48,17 @@ public class KeyHandler implements KeyListener {
                     }
                     if (gp.getCommandNum() == 2) {
                         gp.setGameState(GameState.SETTINGS_STATE);
-                        gp.setCommandNum(0);
                     }
                     if (gp.getCommandNum() == 3) {
                         gp.playSE(2);
-                        System.exit(0);
+                        gp.setGameState(GameState.CONFIRM_EXIT_STATE);
+                        gp.setCommandNum(2);
                     }
+                }
+                case KeyEvent.VK_ESCAPE -> {
+                    gp.playSE(2);
+                    gp.setGameState(GameState.CONFIRM_EXIT_STATE);
+                    gp.setCommandNum(2);
                 }
             }
         } else if (gp.getGameState().equals(GameState.SETTINGS_STATE)) {
@@ -61,12 +66,12 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_W, KeyEvent.VK_UP -> {
                     gp.removeCommandNum();
                     if (gp.getCommandNum() < 0) {
-                        gp.setCommandNum(2);
+                        gp.setCommandNum(3);
                     }
                 }
                 case KeyEvent.VK_S, KeyEvent.VK_DOWN -> {
                     gp.addCommandNum();
-                    if (gp.getCommandNum() > 2) {
+                    if (gp.getCommandNum() > 3) {
                         gp.setCommandNum(0);
                     }
                 }
@@ -77,11 +82,44 @@ public class KeyHandler implements KeyListener {
                     if (gp.getCommandNum() == 1) {
                         // add later
                     }
-                    if (gp.getCommandNum() == 2) {
+                    if(gp.getCommandNum() == 2) {
+                        gp.setGameState(GameState.CONTROLS_STATE);
+                        gp.setCommandNum(5);
+                    }
+                    if (gp.getCommandNum() == 3) {
                         gp.setGameState(GameState.TITLE_STATE);
-                        gp.setCommandNum(0);
                     }
                 }
+                case KeyEvent.VK_ESCAPE -> gp.setGameState(GameState.TITLE_STATE);
+            }
+        } else if (gp.getGameState().equals(GameState.CONTROLS_STATE)) {
+            switch (code) {
+                case KeyEvent.VK_ESCAPE, KeyEvent.VK_ENTER -> gp.setGameState(GameState.SETTINGS_STATE);
+            }
+        }else if (gp.getGameState().equals(GameState.CONFIRM_EXIT_STATE)) {
+            switch (code) {
+                case KeyEvent.VK_W, KeyEvent.VK_UP -> {
+                    gp.removeCommandNum();
+                    if (gp.getCommandNum() < 1) {
+                        gp.setCommandNum(2);
+                    }
+                }
+                case KeyEvent.VK_S, KeyEvent.VK_DOWN -> {
+                    gp.addCommandNum();
+                    if (gp.getCommandNum() > 2) {
+                        gp.setCommandNum(1);
+                    }
+                }
+                case KeyEvent.VK_ENTER -> {
+                    if (gp.getCommandNum() == 1) {
+                        System.exit(0);
+                    }
+                    if (gp.getCommandNum() == 2) {
+                        gp.setGameState(GameState.TITLE_STATE);
+                    }
+                }
+                case KeyEvent.VK_ESCAPE -> System.exit(0);
+
             }
         }
         if (gp.getGameState().equals(GameState.PLAY_STATE)) {
