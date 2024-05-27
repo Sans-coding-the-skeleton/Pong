@@ -25,6 +25,8 @@ public class UI {
 
     public void draw(Graphics2D g2, Ball ball) {
         g2.setFont(pressStartRegular);
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0,0,gp.getWidth(),gp.getHeight());
         if (gp.getGameState().equals(GameState.PLAY_STATE)) {
             drawPlayScreen(g2, ball);
         }
@@ -38,10 +40,10 @@ public class UI {
         if (gp.getGameState().equals(GameState.SETTINGS_STATE)) {
             drawSettingsScreen(g2);
         }
-        if(gp.getGameState().equals(GameState.CONTROLS_STATE)){
+        if (gp.getGameState().equals(GameState.CONTROLS_STATE)) {
             drawControlsScreen(g2);
         }
-        if(gp.getGameState().equals(GameState.CONFIRM_EXIT_STATE)){
+        if (gp.getGameState().equals(GameState.CONFIRM_EXIT_STATE)) {
             drawConfirmExitScreen(g2);
         }
     }
@@ -94,19 +96,19 @@ public class UI {
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
-        line+=1;
+        line += 1;
         text = "Sound";
         drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
-        line+=1;
+        line += 1;
         text = "Controls";
         drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
-        line+=1;
+        line += 1;
         text = "Back";
         drawMenu(text, g2, line);
         if (commandNum == line) {
@@ -121,19 +123,19 @@ public class UI {
         int line = 0;
         text = "Left player UP - W";
         drawMenu(text, g2, line);
-        line+=1;
+        line += 1;
         text = "Left player DOWN - S";
         drawMenu(text, g2, line);
-        line+=1;
+        line += 1;
         text = "Right player UP - ARROW UP";
         drawMenu(text, g2, line);
-        line+=1;
+        line += 1;
         text = "Right player DOWN - ARROW DOWN";
         drawMenu(text, g2, line);
-        line+=1;
+        line += 1;
         text = "Pause - P";
         drawMenu(text, g2, line);
-        line+=1;
+        line += 1;
         text = "Back";
         drawMenu(text, g2, line);
         if (commandNum == line) {
@@ -148,16 +150,16 @@ public class UI {
         int line = 0;
         text = "Are you sure you want to exit?";
         drawMenu(text, g2, line);
-        line+=1;
+        line += 1;
         text = "Yes";
         drawMenu(text, g2, line);
-        if(commandNum == line) {
+        if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
-        line+=1;
+        line += 1;
         text = "No";
         drawMenu(text, g2, line);
-        if(commandNum == line) {
+        if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
     }
@@ -172,12 +174,12 @@ public class UI {
 
     public void drawMenu(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
-        g2.drawString(text, centeredText, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line-1));
+        g2.drawString(text, centeredText, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1));
     }
 
     public void drawChoice(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
-        g2.drawString(">", centeredText - pressStartRegular.getSize(), gp.getScreenHeight() / 2 +pressStartRegular.getSize() * (line -1));
+        g2.drawString(">", centeredText - pressStartRegular.getSize(), gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1));
     }
 
     public int getXForCenteredText(String text, Graphics2D g2) {

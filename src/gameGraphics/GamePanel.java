@@ -3,11 +3,13 @@ package gameGraphics;
 import entity.Ball;
 import keyInputs.KeyHandler;
 import entity.Player;
+import main.Main;
 import sound.Sound;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,7 +20,6 @@ public class GamePanel extends JPanel implements Runnable {
     private final int screenHeight = 450;
     // TODO Player vs Computer
     // TODO Settings
-    // TODO Fullscreen
 
     private final KeyHandler keyH = new KeyHandler(this);
     private final Sound sound;
@@ -30,16 +31,27 @@ public class GamePanel extends JPanel implements Runnable {
     private GameState gameState;
     private final UI ui = new UI(this);
     private Image background;
+    //for fullscreen
+    int screenWidth2 = screenWidth;
+    int screenHeight2 = screenHeight;
+    BufferedImage tempScreen;
+    Graphics2D g2;
 
     public GamePanel() {
         sound = new Sound();
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
-        preloadImages();
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+
+    public void setupGame() {
+        preloadImages();
         setGameState(GameState.TITLE_STATE);
+        tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+        g2 = (Graphics2D) tempScreen.getGraphics();
+        setFullscreen();
     }
 
     public void preloadImages() {
@@ -72,7 +84,8 @@ public class GamePanel extends JPanel implements Runnable {
             lastTime = currentTime;
             if (delta >= 1) {
                 update();
-                repaint();
+                drawToTempScreen(); //draw everything to the buffered image
+                drawToScreen(); //draw the buffered image to the screen
                 delta--;
                 drawCount++;
             }
@@ -93,20 +106,31 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
+    public void setFullscreen() {
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
+        graphicsDevice.setFullScreenWindow(Main.window);
+
+        screenWidth2 = Main.window.getWidth();
+        screenHeight2 = Main.window.getHeight();
+    }
+
+    public void drawToTempScreen() {
         if (getGameState().equals(GameState.PLAY_STATE)) {
-            g2.drawImage(background, 0, 0, 800, 450, null);
+            ui.draw(g2, ball);
+            g2.drawImage(background, 0, 0, screenWidth, screenHeight, null);
             player1.draw(g2);
             player2.draw(g2);
             ball.draw(g2);
-            ui.draw(g2, ball);
-            g2.dispose();
-        }else {
+        } else {
             ui.draw(g2, ball);
         }
+    }
+
+    public void drawToScreen() {
+        Graphics g = getGraphics();
+        g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
+        g.dispose();
     }
 
     public int getCommandNum() {
