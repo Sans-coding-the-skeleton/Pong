@@ -20,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int screenHeight = 450;
     // TODO Player vs Computer
     // TODO Settings
+    // TODO DISPLAY FPS ON SCREEN
 
     private final KeyHandler keyH = new KeyHandler(this);
     private final Sound sound;
@@ -110,13 +111,12 @@ public class GamePanel extends JPanel implements Runnable {
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
         graphicsDevice.setFullScreenWindow(Main.window);
-
         screenWidth2 = Main.window.getWidth();
         screenHeight2 = Main.window.getHeight();
     }
 
     public void drawToTempScreen() {
-        if (getGameState().equals(GameState.PLAY_STATE)) {
+        if (getGameState().equals(GameState.PLAY_STATE)||getGameState().equals(GameState.PAUSE_STATE)) {
             ui.draw(g2, ball);
             g2.drawImage(background, 0, 0, screenWidth, screenHeight, null);
             player1.draw(g2);

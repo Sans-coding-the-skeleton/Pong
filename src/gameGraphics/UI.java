@@ -26,12 +26,12 @@ public class UI {
     public void draw(Graphics2D g2, Ball ball) {
         g2.setFont(pressStartRegular);
         g2.setColor(Color.BLACK);
-        g2.fillRect(0,0,gp.getWidth(),gp.getHeight());
+        g2.fillRect(0, 0, gp.getWidth(), gp.getHeight());
         if (gp.getGameState().equals(GameState.PLAY_STATE)) {
-            drawPlayScreen(g2, ball);
+            drawScore(g2, ball);
         }
         if (gp.getGameState().equals(GameState.PAUSE_STATE)) {
-            drawPlayScreen(g2, ball);
+            drawScore(g2, ball);
             drawPauseScreen(g2);//if the game is paused, "PAUSED" is drawn on top of everything
         }
         if (gp.getGameState().equals(GameState.TITLE_STATE)) {
@@ -48,10 +48,9 @@ public class UI {
         }
     }
 
-    public void drawPlayScreen(Graphics2D g2, Ball ball) {
+    public void drawScore(Graphics2D g2, Ball ball) {
         g2.setColor(Color.WHITE);
         g2.drawString(String.valueOf(ball.getLeftScore()), getXForCenteredText(String.valueOf(ball.getLeftScore()), g2) - 75, 50); //250 50
-        g2.setColor(Color.WHITE);
         g2.drawString(String.valueOf(ball.getRightScore()), getXForCenteredText(String.valueOf(ball.getRightScore()), g2) + 75, 50); // 475 50
     }
 

@@ -82,7 +82,7 @@ public class KeyHandler implements KeyListener {
                     if (gp.getCommandNum() == 1) {
                         // add later
                     }
-                    if(gp.getCommandNum() == 2) {
+                    if (gp.getCommandNum() == 2) {
                         gp.setGameState(GameState.CONTROLS_STATE);
                         gp.setCommandNum(5);
                     }
@@ -96,7 +96,7 @@ public class KeyHandler implements KeyListener {
             switch (code) {
                 case KeyEvent.VK_ESCAPE, KeyEvent.VK_ENTER -> gp.setGameState(GameState.SETTINGS_STATE);
             }
-        }else if (gp.getGameState().equals(GameState.CONFIRM_EXIT_STATE)) {
+        } else if (gp.getGameState().equals(GameState.CONFIRM_EXIT_STATE)) {
             switch (code) {
                 case KeyEvent.VK_W, KeyEvent.VK_UP -> {
                     gp.removeCommandNum();
@@ -121,8 +121,7 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_ESCAPE -> System.exit(0);
 
             }
-        }
-        if (gp.getGameState().equals(GameState.PLAY_STATE)) {
+        } else if (gp.getGameState().equals(GameState.PLAY_STATE)) {
             switch (code) {
                 case KeyEvent.VK_W -> leftPLayerUpPressed = true;
                 case KeyEvent.VK_A -> leftPLayerLeftPressed = true;
@@ -132,13 +131,11 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_LEFT -> rightPLayerLeftPressed = true;
                 case KeyEvent.VK_DOWN -> rightPLayerDownPressed = true;
                 case KeyEvent.VK_RIGHT -> rightPlayerRightPressed = true;
-                case KeyEvent.VK_P -> {
-                    if (gp.getGameState().equals(GameState.PAUSE_STATE)) {
-                        gp.setGameState(GameState.PLAY_STATE);
-                    } else if (gp.getGameState().equals(GameState.PLAY_STATE)) {
-                        gp.setGameState(GameState.PAUSE_STATE);
-                    }
-                }
+                case KeyEvent.VK_P -> gp.setGameState(GameState.PAUSE_STATE);
+            }
+        } else if (gp.getGameState().equals(GameState.PAUSE_STATE)) {
+            if (code == KeyEvent.VK_P) {
+                gp.setGameState(GameState.PLAY_STATE);
             }
         }
     }
