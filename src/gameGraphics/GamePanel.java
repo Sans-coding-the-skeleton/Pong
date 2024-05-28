@@ -31,13 +31,14 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FPS = 60;
     private long drawTime;
     private GameState gameState;
-    private final UI ui = new UI(this);
+    protected final UI ui = new UI(this);
     private Image background;
     //for fullscreen
     private int screenWidth2 = screenWidth;
     private int screenHeight2 = screenHeight;
     private BufferedImage tempScreen;
     private Graphics2D g2;
+    private boolean fullScreenOn;
 
     public GamePanel() {
         sound = new Sound();
@@ -46,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        fullScreenOn = Main.window.isUndecorated();
     }
 
     public void setupGame() {
@@ -196,5 +198,27 @@ public class GamePanel extends JPanel implements Runnable {
          */
         this.gameState = gameState;
         setCommandNum(0);
+    }
+
+    public boolean isFullScreenOn() {
+        return fullScreenOn;
+    }
+
+    public void switchFullScreen() {
+        fullScreenOn = !fullScreenOn;
+    }
+
+    public int getVolumeScale() {
+        return sound.getVolumeScale();
+    }
+
+    public void addVolume() {
+        sound.addVolume();
+        playSE(0);
+    }
+
+    public void removeVolume() {
+        sound.removeVolume();
+        playSE(0);
     }
 }
