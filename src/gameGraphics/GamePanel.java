@@ -22,21 +22,22 @@ public class GamePanel extends JPanel implements Runnable {
     // TODO Settings
     // TODO DISPLAY FPS ON SCREEN
 
-    private final KeyHandler keyH = new KeyHandler(this);
+    protected final KeyHandler keyH = new KeyHandler(this);
     private final Sound sound;
     private Thread gameThread;
     private final Player player1 = new Player(this, keyH, true);
     private final Player player2 = new Player(this, keyH, false);
     private final Ball ball = new Ball(this, player1, player2);
     private final int FPS = 60;
+    private long drawTime;
     private GameState gameState;
     private final UI ui = new UI(this);
     private Image background;
     //for fullscreen
-    int screenWidth2 = screenWidth;
-    int screenHeight2 = screenHeight;
-    BufferedImage tempScreen;
-    Graphics2D g2;
+    private int screenWidth2 = screenWidth;
+    private int screenHeight2 = screenHeight;
+    private BufferedImage tempScreen;
+    private Graphics2D g2;
 
     public GamePanel() {
         sound = new Sound();
@@ -91,7 +92,11 @@ public class GamePanel extends JPanel implements Runnable {
                 drawCount++;
             }
             if (timer >= 1000000000) {
-                System.out.println("FPS:" + drawCount);
+                if (keyH.isDisplayFPS()) {
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
+                    g2.drawString("FPS: " + drawCount, 10, 300);
+                    System.out.println("FPS:" + drawCount);
+                }
                 drawCount = 0;
                 timer = 0;
             }
@@ -116,14 +121,28 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void drawToTempScreen() {
-        if (getGameState().equals(GameState.PLAY_STATE)||getGameState().equals(GameState.PAUSE_STATE)) {
+        if (keyH.isCheckDrawTime()) {
+            //DEBUG
+            drawTime = System.nanoTime();
+        }
+        if (getGameState().equals(GameState.PLAY_STATE) || getGameState().equals(GameState.PAUSE_STATE) || getGameState().equals(GameState.MENU_STATE)) {
             ui.draw(g2, ball);
-            g2.drawImage(background, 0, 0, screenWidth, screenHeight, null);
+            if (getGameState().equals(GameState.PLAY_STATE) || getGameState().equals(GameState.PAUSE_STATE)) {
+                g2.drawImage(background, 0, 0, screenWidth, screenHeight, null);
+            }
             player1.draw(g2);
             player2.draw(g2);
             ball.draw(g2);
         } else {
             ui.draw(g2, ball);
+        }
+        if (keyH.isCheckDrawTime()) {
+            //DEBUG
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawTime;
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
+            g2.drawString("Draw time:" + passed, 10, 400);
+            //   System.out.println("Draw time:" + passed);
         }
     }
 
@@ -170,6 +189,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setGameState(GameState gameState) {
+        /*
+        if (gameState.equals(GameState.PLAY_STATE) && getGameState().equals(GameState.PAUSE_STATE)) {
+            gameState = GameState.COUNTDOWN_STATE;
+        }
+         */
         this.gameState = gameState;
         setCommandNum(0);
     }

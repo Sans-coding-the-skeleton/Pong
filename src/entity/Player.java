@@ -31,23 +31,23 @@ public class Player extends Entity {
 
     public void update() {
         if (isOnLeft) {
-            if (keyH.leftPLayerUpPressed) {
+            if (keyH.isLeftPLayerUpPressed()) {
                 if (y >= 0) {
                     y -= ySpeed;
                 }
             }
-            if (keyH.leftPLayerDownPressed) {
+            if (keyH.isLeftPLayerDownPressed()) {
                 if (y <= gp.getScreenHeight() - height) {
                     y += ySpeed;
                 }
             }
         } else {
-            if (keyH.rightPLayerUpPressed) {
+            if (keyH.isRightPLayerUpPressed()) {
                 if (y >= 0) {
                     y -= ySpeed;
                 }
             }
-            if (keyH.rightPLayerDownPressed) {
+            if (keyH.isRightPLayerDownPressed()) {
                 if (y <= gp.getScreenHeight() - height) {
                     y += ySpeed;
                 }

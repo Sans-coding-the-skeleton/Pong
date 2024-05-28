@@ -8,8 +8,12 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     private final GamePanel gp;
-    public boolean leftPLayerUpPressed, leftPLayerDownPressed, leftPLayerLeftPressed, leftPlayerRightPressed;
-    public boolean rightPLayerUpPressed, rightPLayerDownPressed, rightPLayerLeftPressed, rightPlayerRightPressed;
+    private boolean leftPLayerUpPressed, leftPLayerDownPressed;
+    //private boolean leftPLayerLeftPressed, leftPlayerRightPressed;
+    private boolean rightPLayerUpPressed, rightPLayerDownPressed;
+    //private boolean  rightPLayerLeftPressed, rightPlayerRightPressed;
+    private boolean checkDrawTime = false;
+    private boolean displayFPS = false;
 
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
@@ -119,24 +123,57 @@ public class KeyHandler implements KeyListener {
                     }
                 }
                 case KeyEvent.VK_ESCAPE -> System.exit(0);
-
             }
         } else if (gp.getGameState().equals(GameState.PLAY_STATE)) {
             switch (code) {
                 case KeyEvent.VK_W -> leftPLayerUpPressed = true;
-                case KeyEvent.VK_A -> leftPLayerLeftPressed = true;
+                //    case KeyEvent.VK_A -> leftPLayerLeftPressed = true;
                 case KeyEvent.VK_S -> leftPLayerDownPressed = true;
-                case KeyEvent.VK_D -> leftPlayerRightPressed = true;
+                //    case KeyEvent.VK_D -> leftPlayerRightPressed = true;
                 case KeyEvent.VK_UP -> rightPLayerUpPressed = true;
-                case KeyEvent.VK_LEFT -> rightPLayerLeftPressed = true;
+                //    case KeyEvent.VK_LEFT -> rightPLayerLeftPressed = true;
                 case KeyEvent.VK_DOWN -> rightPLayerDownPressed = true;
-                case KeyEvent.VK_RIGHT -> rightPlayerRightPressed = true;
+                //    case KeyEvent.VK_RIGHT -> rightPlayerRightPressed = true;
                 case KeyEvent.VK_P -> gp.setGameState(GameState.PAUSE_STATE);
+                case KeyEvent.VK_ESCAPE -> gp.setGameState(GameState.MENU_STATE);
             }
         } else if (gp.getGameState().equals(GameState.PAUSE_STATE)) {
-            if (code == KeyEvent.VK_P) {
-                gp.setGameState(GameState.PLAY_STATE);
+            switch (code) {
+                case KeyEvent.VK_P -> gp.setGameState(GameState.PLAY_STATE);
+                case KeyEvent.VK_ESCAPE -> gp.setGameState(GameState.MENU_STATE);
             }
+        } else if (gp.getGameState().equals(GameState.MENU_STATE)) {
+            switch (code) {
+                case KeyEvent.VK_P -> gp.setGameState(GameState.PAUSE_STATE);
+                case KeyEvent.VK_W, KeyEvent.VK_UP -> {
+                    gp.removeCommandNum();
+                    if (gp.getCommandNum() < 0) {
+                        gp.setCommandNum(1);
+                    }
+                }
+                case KeyEvent.VK_S, KeyEvent.VK_DOWN -> {
+                    gp.addCommandNum();
+                    if (gp.getCommandNum() > 1) {
+                        gp.setCommandNum(0);
+                    }
+                }
+                case KeyEvent.VK_ENTER -> {
+                    if (gp.getCommandNum() == 0) {
+                        gp.setGameState(GameState.PLAY_STATE);
+                    }
+                    if (gp.getCommandNum() == 1) {
+                        gp.playSE(2);
+                        gp.setGameState(GameState.TITLE_STATE);
+                    }
+                }
+                case KeyEvent.VK_ESCAPE -> gp.setGameState(GameState.PLAY_STATE);
+            }
+        }
+        if (code == KeyEvent.VK_T) {
+            checkDrawTime = !checkDrawTime;
+        }
+        if (code == KeyEvent.VK_F) {
+            displayFPS = !displayFPS;
         }
     }
 
@@ -146,14 +183,38 @@ public class KeyHandler implements KeyListener {
             int code = e.getKeyCode();
             switch (code) {
                 case KeyEvent.VK_W -> leftPLayerUpPressed = false;
-                case KeyEvent.VK_A -> leftPLayerLeftPressed = false;
+                //    case KeyEvent.VK_A -> leftPLayerLeftPressed = false;
                 case KeyEvent.VK_S -> leftPLayerDownPressed = false;
-                case KeyEvent.VK_D -> leftPlayerRightPressed = false;
+                //   case KeyEvent.VK_D -> leftPlayerRightPressed = false;
                 case KeyEvent.VK_UP -> rightPLayerUpPressed = false;
-                case KeyEvent.VK_LEFT -> rightPLayerLeftPressed = false;
+                //    case KeyEvent.VK_LEFT -> rightPLayerLeftPressed = false;
                 case KeyEvent.VK_DOWN -> rightPLayerDownPressed = false;
-                case KeyEvent.VK_RIGHT -> rightPlayerRightPressed = false;
+                //    case KeyEvent.VK_RIGHT -> rightPlayerRightPressed = false;
             }
         }
+    }
+
+    public boolean isLeftPLayerUpPressed() {
+        return leftPLayerUpPressed;
+    }
+
+    public boolean isLeftPLayerDownPressed() {
+        return leftPLayerDownPressed;
+    }
+
+    public boolean isRightPLayerUpPressed() {
+        return rightPLayerUpPressed;
+    }
+
+    public boolean isRightPLayerDownPressed() {
+        return rightPLayerDownPressed;
+    }
+
+    public boolean isCheckDrawTime() {
+        return checkDrawTime;
+    }
+
+    public boolean isDisplayFPS() {
+        return displayFPS;
     }
 }

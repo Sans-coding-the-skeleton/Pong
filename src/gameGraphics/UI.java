@@ -10,7 +10,6 @@ public class UI {
     private final GamePanel gp;
     private final Font pressStartRegular;
     private int commandNum;
-
     public UI(GamePanel gp) {
         this.gp = gp;
         commandNum = 0;
@@ -22,7 +21,6 @@ public class UI {
             throw new RuntimeException(e);
         }
     }
-
     public void draw(Graphics2D g2, Ball ball) {
         g2.setFont(pressStartRegular);
         g2.setColor(Color.BLACK);
@@ -46,19 +44,30 @@ public class UI {
         if (gp.getGameState().equals(GameState.CONFIRM_EXIT_STATE)) {
             drawConfirmExitScreen(g2);
         }
+        if (gp.getGameState().equals(GameState.MENU_STATE)) {
+            drawInGameMenu(g2);
+        }
+        /*
+        if(gp.getGameState().equals(GameState.COUNTDOWN_STATE)) {
+            long currentTime = System.currentTimeMillis();
+            for (int i = 3; i >=0;) {
+                drawCountdown(i,g2);
+                if(System.currentTimeMillis() - currentTime >= 3000){
+                      i--;
+                }
+            }
+        }
+         */
     }
-
     public void drawScore(Graphics2D g2, Ball ball) {
         g2.setColor(Color.WHITE);
         g2.drawString(String.valueOf(ball.getLeftScore()), getXForCenteredText(String.valueOf(ball.getLeftScore()), g2) - 75, 50); //250 50
         g2.drawString(String.valueOf(ball.getRightScore()), getXForCenteredText(String.valueOf(ball.getRightScore()), g2) + 75, 50); // 475 50
     }
-
     public void drawPauseScreen(Graphics2D g2) {
         g2.setColor(Color.GRAY);
         g2.drawString("PAUSED", getXForCenteredText("PAUSED", g2), gp.getScreenHeight() / 2);
     }
-
     private void drawTitleScreen(Graphics2D g2) {
         String text = "PONG";
         drawTitle(text, g2);
@@ -84,7 +93,6 @@ public class UI {
             drawChoice(text, g2, commandNum);
         }
     }
-
     private void drawSettingsScreen(Graphics2D g2) {
         String text = "SETTINGS";
         drawTitle(text, g2);
@@ -114,7 +122,6 @@ public class UI {
             drawChoice(text, g2, commandNum);
         }
     }
-
     private void drawControlsScreen(Graphics2D g2) {
         String text = "CONTROLS";
         drawTitle(text, g2);
@@ -141,7 +148,6 @@ public class UI {
             drawChoice(text, g2, commandNum);
         }
     }
-
     private void drawConfirmExitScreen(Graphics2D g2) {
         String text = "PONG";
         drawTitle(text, g2);
@@ -162,7 +168,33 @@ public class UI {
             drawChoice(text, g2, commandNum);
         }
     }
-
+    public void drawInGameMenu(Graphics2D g2) {
+        String text = "MENU";
+        drawTitle(text, g2);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
+        int line = 0;
+        text = "Back to game";
+        drawMenu(text, g2, line);
+        if (commandNum == line) {
+            drawChoice(text, g2, commandNum);
+        }
+        line += 1;
+        text = "Go to menu";
+        drawMenu(text, g2, line);
+        if (commandNum == line) {
+            drawChoice(text, g2, commandNum);
+        }
+    }
+    /*
+    public void drawCountdown(int i, Graphics2D g2){
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
+        g2.setColor(Color.GRAY);
+        int centeredText = getXForCenteredText(String.valueOf(i), g2);
+        g2.drawString(String.valueOf(i), centeredText + 5, gp.getScreenHeight() / 2 );
+        g2.setColor(Color.WHITE);
+        g2.drawString(String.valueOf(i), centeredText, gp.getScreenHeight() / 2);
+    }
+    */
     public void drawTitle(String text, Graphics2D g2) {
         g2.setColor(Color.GRAY);
         int centeredText = getXForCenteredText(text, g2);
@@ -170,34 +202,45 @@ public class UI {
         g2.setColor(Color.WHITE);
         g2.drawString(text, centeredText, gp.getScreenHeight() / 2 - 125);
     }
-
     public void drawMenu(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
         g2.drawString(text, centeredText, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1));
     }
-
     public void drawChoice(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
         g2.drawString(">", centeredText - pressStartRegular.getSize(), gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1));
     }
-
     public int getXForCenteredText(String text, Graphics2D g2) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gp.getScreenWidth() / 2 - length / 2;
     }
-
+/*
+    public void countdown(Graphics2D g2) {
+      long currentTime = System.nanoTime();
+        for (int i = 3; i > 0;){
+            g2.setColor(Color.BLACK);
+            g2.fillRect(0,0,gp.getScreenWidth(),gp.getScreenHeight());
+            g2.setColor(Color.GRAY);
+            String text = String.valueOf(i);
+            int centeredText = getXForCenteredText(text, g2);
+            g2.drawString(text, centeredText + 5, gp.getScreenHeight() / 2 +5);
+            g2.setColor(Color.WHITE);
+            g2.drawString(text, centeredText, gp.getScreenHeight() / 2);
+            if(System.nanoTime() -currentTime> 1000000000){
+                i--;
+            }
+        }
+    }
+ */
     public void addCommandNum() {
         commandNum++;
     }
-
     public void removeCommandNum() {
         commandNum--;
     }
-
     public int getCommandNum() {
         return commandNum;
     }
-
     public void setCommandNum(int commandNum) {
         this.commandNum = commandNum;
     }
