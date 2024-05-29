@@ -1,5 +1,6 @@
 package gameGraphics;
 
+import config.Config;
 import entity.Ball;
 import keyInputs.KeyHandler;
 import entity.Player;
@@ -19,11 +20,11 @@ public class GamePanel extends JPanel implements Runnable {
     private final int screenWidth = 800;
     private final int screenHeight = 450;
     // TODO Player vs Computer
-    // TODO Settings
     // TODO DISPLAY FPS ON SCREEN
 
     protected final KeyHandler keyH = new KeyHandler(this);
     private final Sound sound;
+    private final Config config = new Config(this);
     private Thread gameThread;
     private final Player player1 = new Player(this, keyH, true);
     private final Player player2 = new Player(this, keyH, false);
@@ -55,7 +56,9 @@ public class GamePanel extends JPanel implements Runnable {
         setGameState(GameState.TITLE_STATE);
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D) tempScreen.getGraphics();
-        setFullscreen();
+        if (fullScreenOn) {
+            setFullscreen();
+        }
     }
 
     public void preloadImages() {
@@ -204,12 +207,20 @@ public class GamePanel extends JPanel implements Runnable {
         return fullScreenOn;
     }
 
+    public void setFullScreenOn(boolean fullScreenOn) {
+        this.fullScreenOn = fullScreenOn;
+    }
+
     public void switchFullScreen() {
         fullScreenOn = !fullScreenOn;
     }
 
     public int getVolumeScale() {
         return sound.getVolumeScale();
+    }
+
+    public void setVolumeScale(int scale) {
+        sound.setVolumeScale(scale);
     }
 
     public void addVolume() {
@@ -220,5 +231,13 @@ public class GamePanel extends JPanel implements Runnable {
     public void removeVolume() {
         sound.removeVolume();
         playSE(0);
+    }
+
+    public void saveConfig() {
+        config.saveConfig();
+    }
+
+    public void loadConfig() {
+        config.loadConfig();
     }
 }

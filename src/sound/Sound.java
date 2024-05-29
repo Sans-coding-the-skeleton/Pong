@@ -63,11 +63,21 @@ public class Sound {
     public int getVolumeScale() {
         return volumeScale;
     }
-    public void addVolume(){
-        volumeScale++;
+
+    public void setVolumeScale(int volumeScale) {
+        this.volumeScale = volumeScale;
     }
-    public void removeVolume(){
-        volumeScale--;
+
+    public void addVolume() {
+        if (volumeScale < 5) {
+            volumeScale++;
+        }
+    }
+
+    public void removeVolume() {
+        if (volumeScale > 0) {
+            volumeScale--;
+        }
     }
 
     /*
