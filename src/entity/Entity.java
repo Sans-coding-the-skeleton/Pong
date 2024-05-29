@@ -1,5 +1,9 @@
 package entity;
 
+import gameGraphics.GamePanel;
+
+import java.awt.*;
+
 public abstract class Entity {
     protected int x, y;
     protected int ySpeed;
@@ -7,4 +11,10 @@ public abstract class Entity {
     protected int width;
     protected int height;
     protected boolean isOnLeft;
+    protected GamePanel gp;
+
+    public void draw(Graphics2D g2) {
+        g2.setColor(Color.WHITE);
+        g2.fillRect(x, y, width, height);
+    }
 }

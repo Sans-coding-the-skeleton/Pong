@@ -3,30 +3,14 @@ package entity;
 import gameGraphics.GamePanel;
 import keyInputs.KeyHandler;
 
-import java.awt.*;
-
-public class Player extends Entity {
-    private final GamePanel gp;
+public class Player extends Paddle {
     private final KeyHandler keyH;
-
 
     public Player(GamePanel gp, KeyHandler keyH, boolean isOnLeft) {
         this.gp = gp;
         this.keyH = keyH;
         this.isOnLeft = isOnLeft;
         setDefaultValues();
-    }
-
-    public void setDefaultValues() {
-        if (isOnLeft) {
-            x = 10;
-        } else {
-            x = gp.getScreenWidth() - 20;
-        }
-        height = 100;
-        width = 10;
-        y = (gp.getScreenHeight() / 2) - (height / 2);
-        ySpeed = 10;
     }
 
     public void update() {
@@ -53,10 +37,5 @@ public class Player extends Entity {
                 }
             }
         }
-    }
-
-    public void draw(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
-        g2.fillRect(x, y, width, height);
     }
 }

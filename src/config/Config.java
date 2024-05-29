@@ -33,7 +33,7 @@ public class Config {
     public void loadConfig() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(saveData.toFile()));
-            if(saveData.toFile().exists()) {
+            if (saveData.toFile().exists()) {
                 String s = br.readLine();
                 if (s.equals("On")) {
                     gp.setFullScreenOn(true);

@@ -2,13 +2,12 @@ package entity;
 
 import gameGraphics.GamePanel;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class Ball extends Entity {
     // TODO Fix Stalemates
-    private final GamePanel gp;
+
     private final Random rand = new Random();
     private int leftScore, rightScore;
     private final Player player1;
@@ -41,7 +40,7 @@ public class Ball extends Entity {
         x += xSpeed;
         y += ySpeed;
         if (y >= gp.getScreenHeight() - height) {
-              gp.playSE(3);
+            gp.playSE(3);
             ySpeed *= -1;
         }
         if (y <= 0) {
@@ -51,27 +50,27 @@ public class Ball extends Entity {
         if (x >= gp.getScreenWidth() - width) {
             isOnLeft = true;
             leftScore += 1;
-               gp.playSE(4);
+            gp.playSE(4);
             resetBall();
         }
         if (x <= 0) {
             isOnLeft = false;
             rightScore += 1;
-              gp.playSE(4);
+            gp.playSE(4);
             resetBall();
         }
         if (new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(player1.x, player1.y, player1.width, player1.height))) {
             if (leftIFrames == 0) {
                 xSpeed = -xSpeed;
                 leftIFrames = 10;
-                   gp.playSE(3);
+                gp.playSE(3);
             }
         }
         if (new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(player2.x, player2.y, player2.width, player2.height))) {
             if (rightIFrames == 0) {
                 xSpeed = -xSpeed;
                 rightIFrames = 10;
-                  gp.playSE(3);
+                gp.playSE(3);
             }
         }
         if (leftIFrames > 0) {
@@ -80,11 +79,6 @@ public class Ball extends Entity {
         if (rightIFrames > 0) {
             rightIFrames--;
         }
-    }
-
-    public void draw(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
-        g2.fillRect(x, y, width, height);
     }
 
     public int getLeftScore() {
