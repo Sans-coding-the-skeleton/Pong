@@ -13,6 +13,14 @@ public abstract class Entity {
     protected boolean isOnLeft;
     protected GamePanel gp;
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public void draw(Graphics2D g2) {
         g2.setColor(Color.WHITE);
         g2.fillRect(x, y, width, height);

@@ -2,6 +2,8 @@ package gameGraphics;
 
 import config.Config;
 import entity.Ball;
+import entity.Computer;
+import entity.Paddle;
 import keyInputs.KeyHandler;
 import entity.Player;
 import main.Main;
@@ -19,16 +21,14 @@ public class GamePanel extends JPanel implements Runnable {
     //screen settings
     private final int screenWidth = 800;
     private final int screenHeight = 450;
-    // TODO Player vs Computer
     // TODO DISPLAY FPS ON SCREEN
-
     protected final KeyHandler keyH = new KeyHandler(this);
     private final Sound sound;
     private final Config config = new Config(this);
     private Thread gameThread;
-    private final Player player1 = new Player(this, keyH, true);
-    private final Player player2 = new Player(this, keyH, false);
-    private final Ball ball = new Ball(this, player1, player2);
+    private final Paddle paddle1 = new Player(this, keyH, true);
+    private Paddle paddle2;
+    private Ball ball = new Ball(this, paddle1, paddle2);
     private final int FPS = 60;
     private long drawTime;
     private GameState gameState;
@@ -66,8 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
             background = ImageIO.read(new File("res/background/Background02.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-        // background = new ImageIcon(Objects.requireNonNull(getClass().getResource("/background/Background02.png"))).getImage();
+        }  // background = new ImageIcon(Objects.requireNonNull(getClass().getResource("/background/Background02.png"))).getImage();
     }
 
     public void startGameThread() {
@@ -110,9 +109,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (getGameState().equals(GameState.PLAY_STATE)) {
-            player1.update();
-            player2.update();
+        if (getGameState().equals(GameState.PVP_PLAY_STATE) || getGameState().equals(GameState.PVC_PLAY_STATE)) {
+            paddle1.update();
+            paddle2.update();
             ball.update();
         }
     }
@@ -127,27 +126,26 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void drawToTempScreen() {
         if (keyH.isCheckDrawTime()) {
-            //DEBUG
             drawTime = System.nanoTime();
         }
-        if (getGameState().equals(GameState.PLAY_STATE) || getGameState().equals(GameState.PAUSE_STATE) || getGameState().equals(GameState.MENU_STATE)) {
-            ui.draw(g2, ball);
-            if (getGameState().equals(GameState.PLAY_STATE) || getGameState().equals(GameState.PAUSE_STATE)) {
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0, 0, getWidth(), getHeight());
+        if (getGameState().equals(GameState.PVP_PLAY_STATE) || getGameState().equals(GameState.PAUSE_STATE) || getGameState().equals(GameState.MENU_STATE) || getGameState().equals(GameState.PVC_PLAY_STATE)) {
+            if (getGameState().equals(GameState.PVP_PLAY_STATE) || getGameState().equals(GameState.PAUSE_STATE) || getGameState().equals(GameState.PVC_PLAY_STATE)) {
                 g2.drawImage(background, 0, 0, screenWidth, screenHeight, null);
             }
-            player1.draw(g2);
-            player2.draw(g2);
+            paddle1.draw(g2);
+            paddle2.draw(g2);
             ball.draw(g2);
+            ui.draw(g2, ball);
         } else {
             ui.draw(g2, ball);
         }
         if (keyH.isCheckDrawTime()) {
-            //DEBUG
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawTime;
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
             g2.drawString("Draw time:" + passed, 10, 400);
-            //   System.out.println("Draw time:" + passed);
         }
     }
 
@@ -175,7 +173,6 @@ public class GamePanel extends JPanel implements Runnable {
         ui.removeCommandNum();
     }
 
-
     public void playSE(int i) {
         sound.setFile(i);
         sound.play();
@@ -194,11 +191,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setGameState(GameState gameState) {
-        /*
-        if (gameState.equals(GameState.PLAY_STATE) && getGameState().equals(GameState.PAUSE_STATE)) {
-            gameState = GameState.COUNTDOWN_STATE;
+        if (gameState.equals(GameState.PVP_PLAY_STATE) && this.gameState.equals(GameState.TITLE_STATE)) {
+            paddle2 = new Player(this, keyH, false);
+            ball = new Ball(this, paddle1, paddle2);
+        } else if (gameState.equals(GameState.PVC_PLAY_STATE) && this.gameState.equals(GameState.TITLE_STATE)) {
+            paddle2 = new Computer(this, false);
+            ball = new Ball(this, paddle1, paddle2);
         }
-         */
         this.gameState = gameState;
         setCommandNum(0);
     }
@@ -239,5 +238,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void loadConfig() {
         config.loadConfig();
+    }
+
+    public int getBallY() {
+        return ball.getY();
+    }
+
+    public int getBallHeight() {
+        return ball.getHeight();
     }
 }

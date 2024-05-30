@@ -33,7 +33,7 @@ public class KeyHandler implements KeyListener {
             controlsState(code);
         } else if (gp.getGameState().equals(GameState.CONFIRM_EXIT_STATE)) {
             confirmExitState(code);
-        } else if (gp.getGameState().equals(GameState.PLAY_STATE)) {
+        } else if (gp.getGameState().equals(GameState.PVP_PLAY_STATE) || gp.getGameState().equals(GameState.PVC_PLAY_STATE)) {
             playState(code);
         } else if (gp.getGameState().equals(GameState.PAUSE_STATE)) {
             pauseState(code);
@@ -65,11 +65,11 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_ENTER -> {
                 if (gp.getCommandNum() == 0) {
                     gp.playSE(1);
-                    gp.setGameState(GameState.PLAY_STATE);
+                    gp.setGameState(GameState.PVP_PLAY_STATE);
                 }
                 if (gp.getCommandNum() == 1) {
                     gp.playSE(1);
-                    // add later
+                    gp.setGameState(GameState.PVC_PLAY_STATE);
                 }
                 if (gp.getCommandNum() == 2) {
                     gp.setGameState(GameState.SETTINGS_STATE);
@@ -108,7 +108,7 @@ public class KeyHandler implements KeyListener {
                 }
             }
             case KeyEvent.VK_D, KeyEvent.VK_RIGHT -> {
-                if (gp.getCommandNum() ==1) {
+                if (gp.getCommandNum() == 1) {
                     gp.addVolume();
                 }
             }
@@ -173,7 +173,7 @@ public class KeyHandler implements KeyListener {
 
     public void pauseState(int code) {
         switch (code) {
-            case KeyEvent.VK_P -> gp.setGameState(GameState.PLAY_STATE);
+            case KeyEvent.VK_P -> gp.setGameState(GameState.PVP_PLAY_STATE);
             case KeyEvent.VK_ESCAPE -> gp.setGameState(GameState.MENU_STATE);
         }
     }
@@ -195,20 +195,20 @@ public class KeyHandler implements KeyListener {
             }
             case KeyEvent.VK_ENTER -> {
                 if (gp.getCommandNum() == 0) {
-                    gp.setGameState(GameState.PLAY_STATE);
+                    gp.setGameState(GameState.PVP_PLAY_STATE);
                 }
                 if (gp.getCommandNum() == 1) {
                     gp.playSE(2);
                     gp.setGameState(GameState.TITLE_STATE);
                 }
             }
-            case KeyEvent.VK_ESCAPE -> gp.setGameState(GameState.PLAY_STATE);
+            case KeyEvent.VK_ESCAPE -> gp.setGameState(GameState.PVP_PLAY_STATE);
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (gp.getGameState().equals(GameState.PLAY_STATE)) {
+        if (gp.getGameState().equals(GameState.PVP_PLAY_STATE) || gp.getGameState().equals(GameState.PVC_PLAY_STATE)) {
             int code = e.getKeyCode();
             switch (code) {
                 case KeyEvent.VK_W -> leftPLayerUpPressed = false;

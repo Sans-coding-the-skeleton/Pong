@@ -12,4 +12,8 @@ public abstract class Paddle extends Entity {
         y = (gp.getScreenHeight() / 2) - (height / 2);
         ySpeed = 10;
     }
+
+    public void update() {
+
+    }
 }

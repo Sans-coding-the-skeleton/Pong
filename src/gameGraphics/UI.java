@@ -25,9 +25,7 @@ public class UI {
 
     public void draw(Graphics2D g2, Ball ball) {
         g2.setFont(pressStartRegular);
-        g2.setColor(Color.BLACK);
-        g2.fillRect(0, 0, gp.getWidth(), gp.getHeight());
-        if (gp.getGameState().equals(GameState.PLAY_STATE)) {
+        if (gp.getGameState().equals(GameState.PVP_PLAY_STATE) || gp.getGameState().equals(GameState.PVC_PLAY_STATE)) {
             drawScore(g2, ball);
         } else if (gp.getGameState().equals(GameState.PAUSE_STATE)) {
             drawScore(g2, ball);

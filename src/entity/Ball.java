@@ -10,17 +10,17 @@ public class Ball extends Entity {
 
     private final Random rand = new Random();
     private int leftScore, rightScore;
-    private final Player player1;
-    private final Player player2;
+    private final Paddle paddle1;
+    private final Paddle paddle2;
     private int leftIFrames = 0;
     private int rightIFrames = 0;
 
 
-    public Ball(GamePanel gp, Player player1, Player player2) {
+    public Ball(GamePanel gp, Paddle player1, Paddle player2) {
         this.gp = gp;
         resetBall();
-        this.player1 = player1;
-        this.player2 = player2;
+        this.paddle1 = player1;
+        this.paddle2 = player2;
     }
 
     public void resetBall() {
@@ -59,14 +59,14 @@ public class Ball extends Entity {
             gp.playSE(4);
             resetBall();
         }
-        if (new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(player1.x, player1.y, player1.width, player1.height))) {
+        if (collision(x, y, width, height, paddle1.x, paddle1.y, paddle1.width, paddle1.height)) {
             if (leftIFrames == 0) {
                 xSpeed = -xSpeed;
                 leftIFrames = 10;
                 gp.playSE(3);
             }
         }
-        if (new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(player2.x, player2.y, player2.width, player2.height))) {
+        if (collision(x, y, width, height, paddle2.x, paddle2.y, paddle2.width, paddle2.height)) {
             if (rightIFrames == 0) {
                 xSpeed = -xSpeed;
                 rightIFrames = 10;
@@ -79,6 +79,10 @@ public class Ball extends Entity {
         if (rightIFrames > 0) {
             rightIFrames--;
         }
+    }
+
+    public boolean collision(int x, int y, int width, int height, int paddleX, int paddleY, int paddleWidth, int paddleHeight) {
+        return new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(paddleX, paddleY, paddleWidth, paddleHeight));
     }
 
     public int getLeftScore() {
