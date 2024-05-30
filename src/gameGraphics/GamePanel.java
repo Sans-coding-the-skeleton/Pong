@@ -104,12 +104,14 @@ public class GamePanel extends JPanel implements Runnable {
                 drawCount = 0;
                 timer = 0;
             }
-
         }
     }
 
     public void update() {
         if (getGameState().equals(GameState.PVP_PLAY_STATE) || getGameState().equals(GameState.PVC_PLAY_STATE)) {
+            if (!Main.window.isFocused()) {
+                setGameState(GameState.PAUSE_STATE);
+            }
             paddle1.update();
             paddle2.update();
             ball.update();

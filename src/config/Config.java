@@ -35,10 +35,10 @@ public class Config {
             BufferedReader br = new BufferedReader(new FileReader(saveData.toFile()));
             if (saveData.toFile().exists()) {
                 String s = br.readLine();
-                if (s.equals("On")) {
+                if (s.equalsIgnoreCase("On")) {
                     gp.setFullScreenOn(true);
                 }
-                if (s.equals("Off")) {
+                if (s.equalsIgnoreCase("Off")) {
                     gp.setFullScreenOn(false);
                 }
                 s = br.readLine();
