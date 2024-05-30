@@ -105,10 +105,10 @@ public class Ball extends Entity {
     public int addYSpeed(Paddle paddle) {
         int speedToAdd = 0;
         if (paddle.directions.equals(Directions.UP)) {
-            speedToAdd = -paddle.ySpeed;
+            speedToAdd = -paddle.ySpeed/2;
         }
         if (paddle.directions.equals(Directions.DOWN)) {
-            speedToAdd = paddle.ySpeed;
+            speedToAdd = paddle.ySpeed/2;
         }
         return speedToAdd;
     }
