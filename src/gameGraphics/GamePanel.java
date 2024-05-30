@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable {
-
     //screen settings
     private final int screenWidth = 800;
     private final int screenHeight = 450;
@@ -34,8 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
     private GameState gameState;
     protected final UI ui = new UI(this);
     private Image background;
-    //for fullscreen
-    private int screenWidth2 = screenWidth;
+    private int screenWidth2 = screenWidth; //for fullscreen
     private int screenHeight2 = screenHeight;
     private BufferedImage tempScreen;
     private Graphics2D g2;
@@ -63,6 +61,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void preloadImages() {
         try {
+            BufferedImage image = ImageIO.read(new File("res/icon/Icon04.png"));
+            Main.window.setIconImage(image);
             background = ImageIO.read(new File("res/background/Background02.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -82,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
-        int drawCount = 0;
+       // int drawCount = 0;
         while (gameThread.isAlive()) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInternal;
@@ -93,15 +93,15 @@ public class GamePanel extends JPanel implements Runnable {
                 drawToTempScreen(); //draw everything to the buffered image
                 drawToScreen(); //draw the buffered image to the screen
                 delta--;
-                drawCount++;
+           //     drawCount++;
             }
             if (timer >= 1000000000) {
-                if (keyH.isDisplayFPS()) {
+             /*   if (keyH.isDisplayFPS()) {
                     g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
                     g2.drawString("FPS: " + drawCount, 10, 300);
                     System.out.println("FPS:" + drawCount);
-                }
-                drawCount = 0;
+                }*/
+          //      drawCount = 0;
                 timer = 0;
             }
         }

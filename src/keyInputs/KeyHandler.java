@@ -11,7 +11,7 @@ public class KeyHandler implements KeyListener {
     private boolean leftPLayerUpPressed, leftPLayerDownPressed;
     private boolean rightPLayerUpPressed, rightPLayerDownPressed;
     private boolean checkDrawTime = false;
-    private boolean displayFPS = false;
+   // private boolean displayFPS = false;
 
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
@@ -43,9 +43,11 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_T) {
             checkDrawTime = !checkDrawTime;
         }
+        /*
         if (code == KeyEvent.VK_F) {
             displayFPS = !displayFPS;
         }
+         */
     }
 
     public void titleState(int code) {
@@ -238,8 +240,9 @@ public class KeyHandler implements KeyListener {
     public boolean isCheckDrawTime() {
         return checkDrawTime;
     }
-
+/*
     public boolean isDisplayFPS() {
         return displayFPS;
     }
+ */
 }
