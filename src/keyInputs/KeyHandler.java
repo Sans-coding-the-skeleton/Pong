@@ -156,7 +156,7 @@ public class KeyHandler implements KeyListener {
                     gp.setGameState(GameState.TITLE_STATE);
                 }
             }
-            case KeyEvent.VK_ESCAPE -> System.exit(0);
+            case KeyEvent.VK_ESCAPE -> gp.setGameState(GameState.TITLE_STATE);
         }
     }
 

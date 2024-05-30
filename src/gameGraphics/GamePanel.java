@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread gameThread;
     private final Paddle paddle1 = new Player(this, keyH, true);
     private Paddle paddle2;
-    private Ball ball = new Ball(this, paddle1, paddle2);
+    private Ball ball;
     private final int FPS = 60;
     private long drawTime;
     private GameState gameState;

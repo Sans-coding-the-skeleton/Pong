@@ -14,26 +14,31 @@ public class Player extends Paddle {
     }
 
     public void update() {
+        directions = Directions.NONE;
         if (isOnLeft) {
             if (keyH.isLeftPLayerUpPressed()) {
                 if (y >= 0) {
                     y -= ySpeed;
+                    directions = Directions.UP;
                 }
             }
             if (keyH.isLeftPLayerDownPressed()) {
                 if (y <= gp.getScreenHeight() - height) {
                     y += ySpeed;
+                    directions = Directions.DOWN;
                 }
             }
         } else {
             if (keyH.isRightPLayerUpPressed()) {
                 if (y >= 0) {
                     y -= ySpeed;
+                    directions = Directions.UP;
                 }
             }
             if (keyH.isRightPLayerDownPressed()) {
                 if (y <= gp.getScreenHeight() - height) {
                     y += ySpeed;
+                    directions = Directions.DOWN;
                 }
             }
         }

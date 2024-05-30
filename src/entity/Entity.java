@@ -25,4 +25,8 @@ public abstract class Entity {
         g2.setColor(Color.WHITE);
         g2.fillRect(x, y, width, height);
     }
+
+    public void update() {
+
+    }
 }

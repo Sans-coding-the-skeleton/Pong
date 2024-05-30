@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class Ball extends Entity {
-    // TODO Fix Stalemates
 
     private final Random rand = new Random();
     private int leftScore, rightScore;
@@ -49,28 +48,39 @@ public class Ball extends Entity {
         }
         if (x >= gp.getScreenWidth() - width) {
             isOnLeft = true;
-            leftScore += 1;
+            leftScore++;
             gp.playSE(4);
             resetBall();
         }
         if (x <= 0) {
             isOnLeft = false;
-            rightScore += 1;
+            rightScore++;
             gp.playSE(4);
             resetBall();
         }
-        if (collision(x, y, width, height, paddle1.x, paddle1.y, paddle1.width, paddle1.height)) {
-            if (leftIFrames == 0) {
-                xSpeed = -xSpeed;
-                leftIFrames = 10;
-                gp.playSE(3);
+        int maxXSpeed = 17;
+        if (x <= paddle1.width + paddle1.x) {
+            if (collision(x, y, width, height, paddle1)) {
+                if (leftIFrames == 0) {
+                    if (-xSpeed <= maxXSpeed) {
+                        xSpeed--;
+                    }
+                    xSpeed *= -1;
+                    leftIFrames = 10;
+                    gp.playSE(3);
+                }
             }
         }
-        if (collision(x, y, width, height, paddle2.x, paddle2.y, paddle2.width, paddle2.height)) {
-            if (rightIFrames == 0) {
-                xSpeed = -xSpeed;
-                rightIFrames = 10;
-                gp.playSE(3);
+        if (x >= gp.getScreenWidth() - width - paddle2.width - paddle2.x) {
+            if (collision(x, y, width, height, paddle2)) {
+                if (rightIFrames == 0) {
+                    if (xSpeed <= maxXSpeed) {
+                        xSpeed++;
+                    }
+                    xSpeed *= -1;
+                    rightIFrames = 10;
+                    gp.playSE(3);
+                }
             }
         }
         if (leftIFrames > 0) {
@@ -81,8 +91,26 @@ public class Ball extends Entity {
         }
     }
 
-    public boolean collision(int x, int y, int width, int height, int paddleX, int paddleY, int paddleWidth, int paddleHeight) {
-        return new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(paddleX, paddleY, paddleWidth, paddleHeight));
+    public boolean collision(int x, int y, int width, int height, Paddle paddle) {
+        boolean doesCollide;
+        if (new Rectangle2D.Double(x, y, width, height).intersects(new Rectangle2D.Double(paddle.x, paddle.y, paddle.width, paddle.height))) {
+            ySpeed += addYSpeed(paddle);
+            doesCollide = true;
+        } else {
+            doesCollide = false;
+        }
+        return doesCollide;
+    }
+
+    public int addYSpeed(Paddle paddle) {
+        int speedToAdd = 0;
+        if (paddle.directions.equals(Directions.UP)) {
+            speedToAdd = -paddle.ySpeed;
+        }
+        if (paddle.directions.equals(Directions.DOWN)) {
+            speedToAdd = paddle.ySpeed;
+        }
+        return speedToAdd;
     }
 
     public int getLeftScore() {

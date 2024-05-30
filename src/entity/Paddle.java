@@ -13,7 +13,5 @@ public abstract class Paddle extends Entity {
         ySpeed = 10;
     }
 
-    public void update() {
-
-    }
+    protected Directions directions = Directions.NONE;
 }
