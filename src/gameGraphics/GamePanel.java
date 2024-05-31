@@ -71,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * Preloads necessary images such as the background and icon.
+     * Preloads images such as the background and icon.
      */
     public void preloadImages() {
         try {
@@ -358,5 +358,14 @@ public class GamePanel extends JPanel implements Runnable {
      */
     public int getBallHeight() {
         return ball.getHeight();
+    }
+
+    /**
+     * Sets the Ball object. This method is intended for use in unit tests only.
+     *
+     * @param ball the Ball object to be set
+     */
+    public void setBall(Ball ball) {
+        this.ball = ball;
     }
 }

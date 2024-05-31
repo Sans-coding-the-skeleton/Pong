@@ -45,8 +45,8 @@ public class KeyHandler implements KeyListener {
             titleState(code);
         } else if (gp.getGameState().equals(GameState.SETTINGS_STATE)) {
             settingsState(code);
-        } else if (gp.getGameState().equals(GameState.CONTROLS_STATE)) {
-            controlsState(code);
+        } else if (gp.getGameState().equals(GameState.CONTROLS_STATE) || gp.getGameState().equals(GameState.CREDITS_STATE)) {
+            readMenuState(code);
         } else if (gp.getGameState().equals(GameState.CONFIRM_EXIT_STATE)) {
             confirmExitState(code);
         } else if (gp.getGameState().equals(GameState.PVP_PLAY_STATE) || gp.getGameState().equals(GameState.PVC_PLAY_STATE)) {
@@ -66,7 +66,7 @@ public class KeyHandler implements KeyListener {
      *
      * @param code the key code of the pressed key
      */
-    public void titleState(int code) {
+    private void titleState(int code) {
         switch (code) {
             case KeyEvent.VK_W, KeyEvent.VK_UP -> {
                 gp.removeCommandNum();
@@ -111,17 +111,17 @@ public class KeyHandler implements KeyListener {
      *
      * @param code the key code of the pressed key
      */
-    public void settingsState(int code) {
+    private void settingsState(int code) {
         switch (code) {
             case KeyEvent.VK_W, KeyEvent.VK_UP -> {
                 gp.removeCommandNum();
                 if (gp.getCommandNum() < 0) {
-                    gp.setCommandNum(3);
+                    gp.setCommandNum(4);
                 }
             }
             case KeyEvent.VK_S, KeyEvent.VK_DOWN -> {
                 gp.addCommandNum();
-                if (gp.getCommandNum() > 3) {
+                if (gp.getCommandNum() > 4) {
                     gp.setCommandNum(0);
                 }
             }
@@ -144,6 +144,10 @@ public class KeyHandler implements KeyListener {
                     gp.setCommandNum(6);
                 }
                 if (gp.getCommandNum() == 3) {
+                    gp.setGameState(GameState.CREDITS_STATE);
+                    gp.setCommandNum(5);
+                }
+                if (gp.getCommandNum() == 4) {
                     gp.setGameState(GameState.TITLE_STATE);
                 }
             }
@@ -152,11 +156,11 @@ public class KeyHandler implements KeyListener {
     }
 
     /**
-     * Handles key press events in the controls state.
+     * Handles key press events in the controls and credits state.
      *
      * @param code the key code of the pressed key
      */
-    public void controlsState(int code) {
+    private void readMenuState(int code) {
         switch (code) {
             case KeyEvent.VK_ESCAPE, KeyEvent.VK_ENTER -> gp.setGameState(GameState.SETTINGS_STATE);
         }
@@ -167,7 +171,7 @@ public class KeyHandler implements KeyListener {
      *
      * @param code the key code of the pressed key
      */
-    public void confirmExitState(int code) {
+    private void confirmExitState(int code) {
         switch (code) {
             case KeyEvent.VK_W, KeyEvent.VK_UP -> {
                 gp.removeCommandNum();
@@ -198,7 +202,7 @@ public class KeyHandler implements KeyListener {
      *
      * @param code the key code of the pressed key
      */
-    public void playState(int code) {
+    private void playState(int code) {
         switch (code) {
             case KeyEvent.VK_W -> leftPlayerUpPressed = true;
             case KeyEvent.VK_S -> leftPlayerDownPressed = true;
@@ -214,7 +218,7 @@ public class KeyHandler implements KeyListener {
      *
      * @param code the key code of the pressed key
      */
-    public void pauseState(int code) {
+    private void pauseState(int code) {
         switch (code) {
             case KeyEvent.VK_P -> gp.setGameState(GameState.PVP_PLAY_STATE);
             case KeyEvent.VK_ESCAPE -> gp.setGameState(GameState.MENU_STATE);
@@ -226,7 +230,7 @@ public class KeyHandler implements KeyListener {
      *
      * @param code the key code of the pressed key
      */
-    public void menuState(int code) {
+    private void menuState(int code) {
         switch (code) {
             case KeyEvent.VK_P -> gp.setGameState(GameState.PAUSE_STATE);
             case KeyEvent.VK_W, KeyEvent.VK_UP -> {
@@ -315,5 +319,25 @@ public class KeyHandler implements KeyListener {
      */
     public boolean isCheckDrawTime() {
         return checkDrawTime;
+    }
+
+    /**
+     * Sets the state of the left player's up movement.
+     * This method is intended to be used only in unit tests.
+     *
+     * @param leftPlayerUpPressed true if the left player's up movement is pressed, false otherwise.
+     */
+    public void setLeftPlayerUpPressed(boolean leftPlayerUpPressed) {
+        this.leftPlayerUpPressed = leftPlayerUpPressed;
+    }
+
+    /**
+     * Sets the state of the left player's down movement.
+     * This method is intended to be used only in unit tests.
+     *
+     * @param leftPlayerDownPressed true if the left player's down movement is pressed, false otherwise.
+     */
+    public void setLeftPlayerDownPressed(boolean leftPlayerDownPressed) {
+        this.leftPlayerDownPressed = leftPlayerDownPressed;
     }
 }

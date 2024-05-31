@@ -56,6 +56,8 @@ public class UI {
             drawConfirmExitScreen(g2);
         } else if (gp.getGameState().equals(GameState.MENU_STATE)) {
             drawInGameMenu(g2);
+        } else if (gp.getGameState().equals(GameState.CREDITS_STATE)) {
+            drawCredits(g2);
         }
     }
 
@@ -65,7 +67,7 @@ public class UI {
      * @param g2   The Graphics2D object.
      * @param ball The ball object.
      */
-    public void drawScore(Graphics2D g2, Ball ball) {
+    private void drawScore(Graphics2D g2, Ball ball) {
         g2.setColor(Color.WHITE);
         g2.drawString(String.valueOf(ball.getLeftScore()), getXForCenteredText(String.valueOf(ball.getLeftScore()), g2) - 75, 50); //250 50
         g2.drawString(String.valueOf(ball.getRightScore()), getXForCenteredText(String.valueOf(ball.getRightScore()), g2) + 75, 50); // 475 50
@@ -76,11 +78,10 @@ public class UI {
      *
      * @param g2 The Graphics2D object.
      */
-    public void drawPauseScreen(Graphics2D g2) {
+    private void drawPauseScreen(Graphics2D g2) {
         g2.setColor(Color.GRAY);
         g2.drawString("PAUSED", getXForCenteredText("PAUSED", g2), gp.getScreenHeight() / 2);
     }
-
 
     /**
      * Draws the title screen with menu options.
@@ -93,24 +94,21 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
         text = "Player vs Player";
         int line = 0;
-        drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Player vs Computer";
-        drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
+        line = drawMenu(text, g2, line);
         text = "Settings";
-        line++;
-        drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
+        line = drawMenu(text, g2, line);
         text = "Quit";
-        line++;
         drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
@@ -128,7 +126,6 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
         text = "Fullscreen";
         int line = 0;
-        drawMenu(text, g2, line);
         boolean fullScreenNotification = (Main.window.isUndecorated() && !gp.isFullScreenOn()) || (!Main.window.isUndecorated() && gp.isFullScreenOn());
         if (gp.isFullScreenOn()) {
             drawFilledCheckbox(text, g2, line);
@@ -137,32 +134,33 @@ public class UI {
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Sound";
-        drawMenu(text, g2, line);
         drawBar(text, g2, line, 5);
         drawFilledBar(text, g2, line, gp.getVolumeScale());
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Controls";
-        drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
-        line++;
+        line = drawMenu(text, g2, line);
+        text = "Credits";
+        if (commandNum == line) {
+            drawChoice(text, g2, commandNum);
+        }
+        line = drawMenu(text, g2, line);
         text = "Back";
-        drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
+        line = drawMenu(text, g2, line);
         if (fullScreenNotification) {
-            line++;
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 12f));
             text = "The change will take effect after restarting the game.";
-            drawMenu(text, g2, line);
-            line++;
+            line = drawMenu(text, g2, line);
             text = "This option may slow down draw times.";
             drawMenu(text, g2, line);
         }
@@ -180,23 +178,17 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
         int line = 0;
         text = "Left player UP - W";
-        drawMenu(text, g2, line);
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Left player DOWN - S";
-        drawMenu(text, g2, line);
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Right player UP - ARROW UP";
-        drawMenu(text, g2, line);
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Right player DOWN - ARROW DOWN";
-        drawMenu(text, g2, line);
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Pause - P";
-        drawMenu(text, g2, line);
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Menu - ESC";
-        drawMenu(text, g2, line);
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Back";
         drawMenu(text, g2, line);
         drawChoice(text, g2, commandNum);
@@ -213,19 +205,17 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
         int line = 0;
         text = "Are you sure you want to exit?";
-        drawMenu(text, g2, line);
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Yes";
-        drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
-        line++;
+        line = drawMenu(text, g2, line);
         text = "No";
-        drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
+        drawMenu(text, g2, line);
     }
 
     /**
@@ -233,22 +223,41 @@ public class UI {
      *
      * @param g2 The Graphics2D object.
      */
-    public void drawInGameMenu(Graphics2D g2) {
+    private void drawInGameMenu(Graphics2D g2) {
         String text = "MENU";
         drawTitle(text, g2);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
         int line = 0;
         text = "Back to game";
-        drawMenu(text, g2, line);
+
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
-        line++;
+        line = drawMenu(text, g2, line);
         text = "Go to menu";
         drawMenu(text, g2, line);
         if (commandNum == line) {
             drawChoice(text, g2, commandNum);
         }
+    }
+
+    private void drawCredits(Graphics2D g2) {
+        String text = "CREDITS";
+        drawTitle(text, g2);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
+        int line = 0;
+        text = "Art by Sans-coding-the-skeleton";
+        line = drawMenu(text, g2, line);
+        text = "SFX by Sans-coding-the-skeleton";
+        line = drawMenu(text, g2, line);
+        text = "Code by Sans-coding-the-skeleton";
+        line = drawMenu(text, g2, line);
+        text = "Font by codeman38";
+        line = drawMenu(text, g2, line);
+        line++;
+        text = "Back";
+        drawMenu(text, g2, line);
+        drawChoice(text, g2, commandNum);
     }
 
     /**
@@ -257,7 +266,7 @@ public class UI {
      * @param text The text to be drawn.
      * @param g2   The Graphics2D object.
      */
-    public void drawTitle(String text, Graphics2D g2) {
+    private void drawTitle(String text, Graphics2D g2) {
         g2.setColor(Color.GRAY);
         int centeredText = getXForCenteredText(text, g2);
         g2.drawString(text, centeredText + 6, gp.getScreenHeight() / 2 - 120);
@@ -272,9 +281,11 @@ public class UI {
      * @param g2   The Graphics2D object.
      * @param line The line number to draw the text.
      */
-    public void drawMenu(String text, Graphics2D g2, int line) {
+    private int drawMenu(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
         g2.drawString(text, centeredText, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - offset);
+        line++;
+        return line;
     }
 
     /**
@@ -284,7 +295,7 @@ public class UI {
      * @param g2   The Graphics2D object.
      * @param line The line number to draw the checkbox.
      */
-    public void drawCheckbox(String text, Graphics2D g2, int line) {
+    private void drawCheckbox(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
         g2.drawRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24 - offset, 24, 24);
     }
@@ -296,7 +307,7 @@ public class UI {
      * @param g2   The Graphics2D object.
      * @param line The line number to draw the checkbox.
      */
-    public void drawFilledCheckbox(String text, Graphics2D g2, int line) {
+    private void drawFilledCheckbox(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
         g2.fillRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24 - offset, 24, 24);
     }
@@ -309,7 +320,7 @@ public class UI {
      * @param line     The line number to draw the volume bar.
      * @param maxScale The maximum scale to determine the length of the bar.
      */
-    public void drawBar(String text, Graphics2D g2, int line, int maxScale) {
+    private void drawBar(String text, Graphics2D g2, int line, int maxScale) {
         int centeredText = getXForCenteredText(text, g2);
         g2.drawRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24 - offset, 24 * maxScale, 24);
     }
@@ -322,7 +333,7 @@ public class UI {
      * @param line  The line number to draw the volume bar.
      * @param scale The scale to determine the length of the filled bar.
      */
-    public void drawFilledBar(String text, Graphics2D g2, int line, int scale) {
+    private void drawFilledBar(String text, Graphics2D g2, int line, int scale) {
         int centeredText = getXForCenteredText(text, g2);
         g2.fillRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24 - offset, 24 * scale, 25);
     }
@@ -334,7 +345,7 @@ public class UI {
      * @param g2   The Graphics2D object.
      * @param line The line number to draw the selection.
      */
-    public void drawChoice(String text, Graphics2D g2, int line) {
+    private void drawChoice(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
         g2.drawString(">", centeredText - pressStartRegular.getSize(), gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - offset);
     }
@@ -346,7 +357,7 @@ public class UI {
      * @param g2   The Graphics2D object.
      * @return The x-coordinate for centered text.
      */
-    public int getXForCenteredText(String text, Graphics2D g2) {
+    private int getXForCenteredText(String text, Graphics2D g2) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gp.getScreenWidth() / 2 - length / 2;
     }

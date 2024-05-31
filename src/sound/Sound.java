@@ -10,9 +10,9 @@ import java.net.URL;
 public class Sound {
     private Clip clip;
     private final URL[] soundURL = new URL[5];
-    FloatControl floatControl;
-    int volumeScale = 3;
-    float volume;
+    private FloatControl floatControl;
+    private int volumeScale = 3;
+    private float volume;
 
     /**
      * Constructor for the Sound class. Initializes sound URLs for various sound effects.

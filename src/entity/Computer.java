@@ -7,8 +7,8 @@ import gameGraphics.GamePanel;
  * It extends the Paddle class and automatically updates its position based on the ball's position.
  */
 public class Computer extends Paddle {
-    int ySpeed = 1;
-    int yMaxSpeed = 5;
+    private final int ySpeed = 1;
+    private final int yMaxSpeed = 5;
 
     /**
      * Constructs a Computer object with the specified GamePanel and position.
