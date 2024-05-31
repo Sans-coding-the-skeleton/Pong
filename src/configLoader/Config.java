@@ -10,7 +10,7 @@ import java.nio.file.Path;
  */
 public class Config {
     private final GamePanel gp;
-    private final Path saveData = Path.of("config/gameConfig.txt");
+    private final Path saveData = Path.of("gameConfig/gameConfig.txt");
 
     /**
      * Constructs a Config object with the specified GamePanel.

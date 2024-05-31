@@ -8,6 +8,7 @@ class GamePanelTest {
 
     @Test
     void loadConfig() {
-
+        GamePanel gamePanel = new GamePanel();
+        gamePanel.loadConfig();
     }
 }

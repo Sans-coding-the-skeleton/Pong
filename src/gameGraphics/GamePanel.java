@@ -54,13 +54,13 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-        fullScreenOn = Main.window.isUndecorated();
     }
 
     /**
      * Sets up the game by preloading images and setting the initial game state.
      */
     public void setupGame() {
+        fullScreenOn = Main.window.isUndecorated();
         preloadImages();
         setGameState(GameState.TITLE_STATE);
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
