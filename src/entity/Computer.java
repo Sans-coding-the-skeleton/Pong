@@ -24,7 +24,7 @@ public class Computer extends Paddle {
 
     /**
      * Updates the computer paddle's position based on the ball's position.
-     * The paddle moves towards the ball's Y-coordinate at ySpeed and if the ball is 25 pixels or further then it moves at yMaxSpeed.
+     * The paddle moves towards the ball's Y-coordinate at ySpeed and if the ball is 25 pixels or further then it moves at yMaxSpeed + ySpeed.
      */
     @Override
     public void update() {
