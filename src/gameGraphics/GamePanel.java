@@ -75,9 +75,9 @@ public class GamePanel extends JPanel implements Runnable {
      */
     public void preloadImages() {
         try {
-            BufferedImage image = ImageIO.read(new File("res/icon/Icon04.png"));
+            BufferedImage image = ImageIO.read(new File("res/icon/Icon.png"));
             Main.window.setIconImage(image);
-            background = ImageIO.read(new File("res/background/Background02.png"));
+            background = ImageIO.read(new File("res/background/Background.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
