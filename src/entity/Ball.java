@@ -83,36 +83,36 @@ public class Ball extends Entity {
     /**
      * Handles collisions with paddles.
      *
-     * @param paddle the Paddle object to check collision with
-     * @param iframe the invincibility frame counter for the paddle
+     * @param paddle  the Paddle object to check collision with
+     * @param iFrames the invincibility frame counter for the paddle
      * @return the updated invincibility frame counter
      */
-    private int handlePaddleCollisions(Paddle paddle, int iframe) {
+    private int handlePaddleCollisions(Paddle paddle, int iFrames) {
         int maxXSpeed = 17;
         if (x <= paddle.width + paddle.x && collision(x, y, width, height, paddle)) {
-            if (iframe == 0) {
+            if (iFrames == 0) {
                 if (-xSpeed <= maxXSpeed) {
                     xSpeed--;
                 }
                 xSpeed *= -1;
-                iframe = 10;
+                iFrames = 10;
                 gp.playSE(3);
             }
         }
         if (x >= gp.getScreenWidth() - width - paddle.width - paddle.x && collision(x, y, width, height, paddle)) {
-            if (iframe == 0) {
+            if (iFrames == 0) {
                 if (xSpeed <= maxXSpeed) {
                     xSpeed++;
                 }
                 xSpeed *= -1;
-                iframe = 10;
+                iFrames = 10;
                 gp.playSE(3);
             }
         }
-        if (iframe > 0) {
-            iframe--;
+        if (iFrames > 0) {
+            iFrames--;
         }
-        return iframe;
+        return iFrames;
     }
 
     /**
