@@ -1,4 +1,4 @@
-package config;
+package configLoader;
 
 import gameGraphics.GamePanel;
 
@@ -10,7 +10,7 @@ import java.nio.file.Path;
  */
 public class Config {
     private final GamePanel gp;
-    private final Path saveData = Path.of("gameConfig.txt");
+    private final Path saveData = Path.of("config/gameConfig.txt");
 
     /**
      * Constructs a Config object with the specified GamePanel.

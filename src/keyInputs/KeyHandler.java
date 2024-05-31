@@ -141,7 +141,7 @@ public class KeyHandler implements KeyListener {
                 }
                 if (gp.getCommandNum() == 2) {
                     gp.setGameState(GameState.CONTROLS_STATE);
-                    gp.setCommandNum(5);
+                    gp.setCommandNum(6);
                 }
                 if (gp.getCommandNum() == 3) {
                     gp.setGameState(GameState.TITLE_STATE);

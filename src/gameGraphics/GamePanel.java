@@ -1,6 +1,6 @@
 package gameGraphics;
 
-import config.Config;
+import configLoader.Config;
 import entity.Ball;
 import entity.Computer;
 import entity.Paddle;

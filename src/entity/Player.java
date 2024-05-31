@@ -11,7 +11,7 @@ public class Player extends Paddle {
     private final KeyHandler keyH;
 
     /**
-     * Constructs a Player object with the specified GamePanel, KeyHandler, and position indicator.
+     * Constructs a Player object with the specified GamePanel, KeyHandler, and position.
      *
      * @param gp       the GamePanel object that contains the game environment
      * @param keyH     the KeyHandler object that manages the player's input

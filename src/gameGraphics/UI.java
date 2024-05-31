@@ -15,6 +15,7 @@ public class UI {
     private final GamePanel gp;
     private Font pressStartRegular;
     private int commandNum = 0;
+    private final int offset = 25; //offset to make all options visible in controls
 
     /**
      * Constructs a UI object with the given game panel.
@@ -161,6 +162,9 @@ public class UI {
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 12f));
             text = "The change will take effect after restarting the game.";
             drawMenu(text, g2, line);
+            line++;
+            text = "This option may slow down draw times.";
+            drawMenu(text, g2, line);
         }
         gp.saveConfig();
     }
@@ -188,6 +192,9 @@ public class UI {
         drawMenu(text, g2, line);
         line++;
         text = "Pause - P";
+        drawMenu(text, g2, line);
+        line++;
+        text = "Menu - ESC";
         drawMenu(text, g2, line);
         line++;
         text = "Back";
@@ -267,7 +274,7 @@ public class UI {
      */
     public void drawMenu(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
-        g2.drawString(text, centeredText, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1));
+        g2.drawString(text, centeredText, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - offset);
     }
 
     /**
@@ -279,7 +286,7 @@ public class UI {
      */
     public void drawCheckbox(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
-        g2.drawRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24, 24, 24);
+        g2.drawRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24 - offset, 24, 24);
     }
 
     /**
@@ -291,7 +298,7 @@ public class UI {
      */
     public void drawFilledCheckbox(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
-        g2.fillRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24, 24, 24);
+        g2.fillRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24 - offset, 24, 24);
     }
 
     /**
@@ -304,7 +311,7 @@ public class UI {
      */
     public void drawBar(String text, Graphics2D g2, int line, int maxScale) {
         int centeredText = getXForCenteredText(text, g2);
-        g2.drawRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24, 24 * maxScale, 24);
+        g2.drawRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24 - offset, 24 * maxScale, 24);
     }
 
     /**
@@ -317,7 +324,7 @@ public class UI {
      */
     public void drawFilledBar(String text, Graphics2D g2, int line, int scale) {
         int centeredText = getXForCenteredText(text, g2);
-        g2.fillRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24, 24 * scale, 25);
+        g2.fillRect(centeredText + (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() + 24, gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - 24 - offset, 24 * scale, 25);
     }
 
     /**
@@ -329,7 +336,7 @@ public class UI {
      */
     public void drawChoice(String text, Graphics2D g2, int line) {
         int centeredText = getXForCenteredText(text, g2);
-        g2.drawString(">", centeredText - pressStartRegular.getSize(), gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1));
+        g2.drawString(">", centeredText - pressStartRegular.getSize(), gp.getScreenHeight() / 2 + pressStartRegular.getSize() * (line - 1) - offset);
     }
 
     /**
