@@ -16,11 +16,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * GamePanel is the main class responsible for the game graphics and logic.
+ * It extends JPanel and implements Runnable to allow the game to run in its own thread.
+ */
 public class GamePanel extends JPanel implements Runnable {
-    //screen settings
+    // Screen settings
     private final int screenWidth = 800;
     private final int screenHeight = 450;
-    // TODO DISPLAY FPS ON SCREEN
+
     protected final KeyHandler keyH = new KeyHandler(this);
     private final Sound sound;
     private final Config config = new Config(this);
@@ -33,12 +37,16 @@ public class GamePanel extends JPanel implements Runnable {
     private GameState gameState;
     protected final UI ui = new UI(this);
     private Image background;
-    private int screenWidth2 = screenWidth; //for fullscreen
+    private int screenWidth2 = screenWidth; // For fullscreen
     private int screenHeight2 = screenHeight;
     private BufferedImage tempScreen;
     private Graphics2D g2;
     private boolean fullScreenOn;
 
+    /**
+     * Constructor initializes the GamePanel.
+     * Sets preferred size, background color, and adds key listeners.
+     */
     public GamePanel() {
         sound = new Sound();
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -49,6 +57,9 @@ public class GamePanel extends JPanel implements Runnable {
         fullScreenOn = Main.window.isUndecorated();
     }
 
+    /**
+     * Sets up the game by preloading images and setting the initial game state.
+     */
     public void setupGame() {
         preloadImages();
         setGameState(GameState.TITLE_STATE);
@@ -59,6 +70,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Preloads necessary images such as the background and icon.
+     */
     public void preloadImages() {
         try {
             BufferedImage image = ImageIO.read(new File("res/icon/Icon04.png"));
@@ -66,15 +80,21 @@ public class GamePanel extends JPanel implements Runnable {
             background = ImageIO.read(new File("res/background/Background02.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }  // background = new ImageIcon(Objects.requireNonNull(getClass().getResource("/background/Background02.png"))).getImage();
+        }
     }
 
+    /**
+     * Starts the game thread which runs the game loop.
+     */
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
-    //delta method
+    /**
+     * Main game loop runs at the specified FPS.
+     * Updates and renders the game state.
+     */
     @Override
     public void run() {
         double drawInternal = 1000000000.0 / FPS;
@@ -82,7 +102,6 @@ public class GamePanel extends JPanel implements Runnable {
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
-       // int drawCount = 0;
         while (gameThread.isAlive()) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInternal;
@@ -90,23 +109,19 @@ public class GamePanel extends JPanel implements Runnable {
             lastTime = currentTime;
             if (delta >= 1) {
                 update();
-                drawToTempScreen(); //draw everything to the buffered image
-                drawToScreen(); //draw the buffered image to the screen
+                drawToTempScreen(); // Draw everything to the buffered image
+                drawToScreen(); // Draw the buffered image to the screen
                 delta--;
-           //     drawCount++;
             }
             if (timer >= 1000000000) {
-             /*   if (keyH.isDisplayFPS()) {
-                    g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
-                    g2.drawString("FPS: " + drawCount, 10, 300);
-                    System.out.println("FPS:" + drawCount);
-                }*/
-          //      drawCount = 0;
                 timer = 0;
             }
         }
     }
 
+    /**
+     * Updates the game state depending on the current game state.
+     */
     public void update() {
         if (getGameState().equals(GameState.PVP_PLAY_STATE) || getGameState().equals(GameState.PVC_PLAY_STATE)) {
             if (!Main.window.isFocused()) {
@@ -118,6 +133,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Sets the game to fullscreen mode.
+     */
     public void setFullscreen() {
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
@@ -126,6 +144,9 @@ public class GamePanel extends JPanel implements Runnable {
         screenHeight2 = Main.window.getHeight();
     }
 
+    /**
+     * Draws all game elements to a temporary screen.
+     */
     public void drawToTempScreen() {
         if (keyH.isCheckDrawTime()) {
             drawTime = System.nanoTime();
@@ -151,47 +172,91 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Draws the temporary screen to the main screen.
+     */
     public void drawToScreen() {
         Graphics g = getGraphics();
         g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
         g.dispose();
     }
 
+    /**
+     * Returns the current command number from the UI.
+     *
+     * @return the current command number
+     */
     public int getCommandNum() {
         return ui.getCommandNum();
     }
 
+    /**
+     * Sets the command number in the UI.
+     *
+     * @param num the command number to set
+     */
     public void setCommandNum(int num) {
         ui.setCommandNum(num);
     }
 
+    /**
+     * Increases the command number and plays a sound effect.
+     */
     public void addCommandNum() {
         playSE(0);
         ui.addCommandNum();
     }
 
+    /**
+     * Decreases the command number and plays a sound effect.
+     */
     public void removeCommandNum() {
         playSE(0);
         ui.removeCommandNum();
     }
 
+    /**
+     * Plays a sound effect.
+     *
+     * @param i the index of the sound effect to play
+     */
     public void playSE(int i) {
         sound.setFile(i);
         sound.play();
     }
 
+    /**
+     * Returns the screen width.
+     *
+     * @return the screen width
+     */
     public int getScreenWidth() {
         return screenWidth;
     }
 
+    /**
+     * Returns the screen height.
+     *
+     * @return the screen height
+     */
     public int getScreenHeight() {
         return screenHeight;
     }
 
+    /**
+     * Returns the current game state.
+     *
+     * @return the current game state
+     */
     public GameState getGameState() {
         return gameState;
     }
 
+    /**
+     * Sets the current game state and initializes paddles and ball depending on the game state.
+     *
+     * @param gameState the new game state
+     */
     public void setGameState(GameState gameState) {
         if (gameState.equals(GameState.PVP_PLAY_STATE) && this.gameState.equals(GameState.TITLE_STATE)) {
             paddle2 = new Player(this, keyH, false);
@@ -204,48 +269,93 @@ public class GamePanel extends JPanel implements Runnable {
         setCommandNum(0);
     }
 
+    /**
+     * Checks if fullscreen mode is enabled.
+     *
+     * @return true if fullscreen mode is enabled, false otherwise
+     */
     public boolean isFullScreenOn() {
         return fullScreenOn;
     }
 
+    /**
+     * Enables or disables fullscreen mode.
+     *
+     * @param fullScreenOn true to enable fullscreen mode, false to disable
+     */
     public void setFullScreenOn(boolean fullScreenOn) {
         this.fullScreenOn = fullScreenOn;
     }
 
+    /**
+     * Toggles fullscreen mode on or off.
+     */
     public void switchFullScreen() {
         fullScreenOn = !fullScreenOn;
     }
 
+    /**
+     * Returns the current volume scale.
+     *
+     * @return the volume scale
+     */
     public int getVolumeScale() {
         return sound.getVolumeScale();
     }
 
+    /**
+     * Sets the volume scale.
+     *
+     * @param scale the new volume scale
+     */
     public void setVolumeScale(int scale) {
         sound.setVolumeScale(scale);
     }
 
+    /**
+     * Increases the volume and plays a sound effect.
+     */
     public void addVolume() {
         sound.addVolume();
         playSE(0);
     }
 
+    /**
+     * Decreases the volume and plays a sound effect.
+     */
     public void removeVolume() {
         sound.removeVolume();
         playSE(0);
     }
 
+    /**
+     * Saves the current configuration.
+     */
     public void saveConfig() {
         config.saveConfig();
     }
 
+    /**
+     * Loads the configuration.
+     */
     public void loadConfig() {
         config.loadConfig();
     }
 
+    /**
+     * Returns the Y-coordinate of the ball.
+     *
+     * @return the Y-coordinate of the ball
+     */
     public int getBallY() {
         return ball.getY();
     }
 
+    /**
+     * Returns the height of the ball.
+     *
+     * @return the height of the ball
+     */
     public int getBallHeight() {
         return ball.getHeight();
     }
