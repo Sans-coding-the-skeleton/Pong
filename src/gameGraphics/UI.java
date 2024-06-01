@@ -161,8 +161,10 @@ public class UI {
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 12f));
             text = "The change will take effect after restarting the game.";
             line = drawMenu(text, g2, line);
-            text = "Turning this option on may slow down draw times.";
-            drawMenu(text, g2, line);
+            if (gp.isFullScreenOn()) {
+                text = "Turning this option on may slow down draw times.";
+                drawMenu(text, g2, line);
+            }
         }
         gp.saveConfig();
     }
@@ -241,6 +243,11 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the credits screen.
+     *
+     * @param g2 The Graphics2D object.
+     */
     private void drawCredits(Graphics2D g2) {
         String text = "CREDITS";
         drawTitle(text, g2);
@@ -326,7 +333,7 @@ public class UI {
     }
 
     /**
-     * Draws a filled volume bar.
+     * Draws a filled volume bar depending on scale.
      *
      * @param text  The text associated with the volume bar.
      * @param g2    The Graphics2D object.
