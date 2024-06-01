@@ -21,8 +21,16 @@ class ComputerTest {
         ball.x = gp.getWidth() -30;
         ball.y = 50;
         ball.ySpeed = 0;
-        ball.xSpeed = 10;
+        ball.xSpeed = 5;
         computer.update();
         assertEquals(19, computer.y);
+        computer.y = 70;
+        computer.x = gp.getWidth() - 20;
+        ball.x = gp.getWidth() -30;
+        ball.y = 50;
+        ball.ySpeed = 0;
+        ball.xSpeed = 5;
+        computer.update();
+        assertEquals(65, computer.y);
     }
 }
