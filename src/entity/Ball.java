@@ -91,18 +91,11 @@ public class Ball extends Entity {
         int maxXSpeed = 17;
         if (x <= paddle.width + paddle.x && collision(x, y, width, height, paddle)) {
             if (iFrames == 0) {
-                if (-xSpeed <= maxXSpeed) {
-                    xSpeed--;
-                }
-                xSpeed *= -1;
-                iFrames = 10;
-                gp.playSE(3);
-            }
-        }
-        if (x >= gp.getScreenWidth() - width - paddle.width - paddle.x && collision(x, y, width, height, paddle)) {
-            if (iFrames == 0) {
-                if (xSpeed <= maxXSpeed) {
+                if (x > gp.getScreenWidth() / 2 && xSpeed <= maxXSpeed) {
                     xSpeed++;
+
+                } else if (x < gp.getScreenWidth() / 2 && -xSpeed <= maxXSpeed) {
+                    xSpeed--;
                 }
                 xSpeed *= -1;
                 iFrames = 10;
